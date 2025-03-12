@@ -30,8 +30,8 @@ export default function Login({ mode }) {
                 <img src={unleash_banner_white} alt="background element" className="h-16 mb-12" />
 
                 {/* email input */}
-                <Input type="email" label="Email" id="email" LeftIcon={<CiMail className="text-white h-6 w-6" />} />
-                <Input type="password" label="Password" id="password" LeftIcon={<FiLock className="text-white h-6 w-6" />} />
+                <Input type="email" label="Email" id="email" LeftIcon={<CiMail />} />
+                <Input type="password" label="Password" id="password" LeftIcon={<FiLock />} />
                 <div className="w-full h-10 cursor-pointer hover:brightness-90 font-montserrat font-semibold text-white bg-unleash-orange rounded-sm shadow-md flex justify-center items-center mt-4">
                     {mode === "SIGN_UP_MERCHANT" ? "CREATE AN ACCOUNT" : "LOGIN"}
                 </div>
