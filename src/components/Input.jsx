@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./index.scss";
 /**
  * @typedef {"button" | "email" | "password" | "text"} typeType
@@ -12,7 +12,7 @@ export default function Input({ type = "text", label = "", id = "", LeftIcon }) 
 
     return (
         <div className="flex flex-row relative outline-white outline-1 rounded-sm gap-2 px-2 py-1 mt-4 w-full">
-            {LeftIcon}
+            {LeftIcon && React.cloneElement(LeftIcon, { className: "text-white h-6 w-6" })}
             {label && (
                 <label
                     for={id}
