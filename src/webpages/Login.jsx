@@ -44,7 +44,7 @@ export default function Login({ mode }) {
                         <div className="font-montserrat text-xs font-medium text-website-gray">
                             New here? Register as a Merchant!
                         </div>
-                        <p className="font-montserrat text-xs font-medium text-unleash-blue bg-website-gray-light border-2 border-unleash-blue rounded-sm w-full text-center py-4 cursor-pointer select-none hover:brightness-95">Register as a Merchant</p>
+                        <p className="font-montserrat text-xs font-medium text-unleash-blue bg-website-gray-100 border-2 border-unleash-blue rounded-sm w-full text-center py-4 cursor-pointer select-none hover:brightness-95">Register as a Merchant</p>
                     </>
                 )}
 
