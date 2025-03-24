@@ -14,12 +14,10 @@ const Refund = () => {
     fetch("https://retoolapi.dev/SWvloe/refund-return-order")
       .then((res) => res.json())
       .then((data) => {
-        // Store both formatted and raw dates for proper sorting
         const formattedData = data.map(item => {
-          // Parse dates properly
+        
           const rawPurchaseDate = new Date(item.Date_Purchased);
           
-          // Handle potential null or invalid return dates
           let rawReturnDate = null;
           if (item.Date_Return) {
             rawReturnDate = new Date(item.Date_Return);
@@ -30,13 +28,13 @@ const Refund = () => {
           
           return {
             ...item,
-            // Store raw dates for sorting
+            
             rawPurchaseDate: isNaN(rawPurchaseDate.getTime()) ? new Date(0) : rawPurchaseDate,
-            rawReturnDate: rawReturnDate || new Date(0), // Use epoch date for nulls
-            // Format dates for display
+            rawReturnDate: rawReturnDate || new Date(0), 
+          
             Date_Purchased: formatDate(item.Date_Purchased),
             Date_Return: formatDate(item.Date_Return),
-            // Store original values for searching
+    
             originalPurchaseDate: item.Date_Purchased,
             originalReturnDate: item.Date_Return
           };
@@ -58,26 +56,21 @@ const Refund = () => {
   };
 
   const filteredData = data.filter((item) => {
-    if (!search.trim()) return true; // If search is empty, return all items
-    
-    const searchLower = search.toLowerCase();
+    const searchLower = search.toLowerCase().trim();
     return (
-      (item.Shop_Name?.toLowerCase() || "").includes(searchLower) ||
-      (item.Customer_Name?.toLowerCase() || "").includes(searchLower) ||
-      (item.Transaction_ID?.toLowerCase() || "").includes(searchLower) ||
-      (item.Order_ID?.toLowerCase() || "").includes(searchLower) ||
-      // Include date searching
-      (item.Date_Purchased?.toLowerCase() || "").includes(searchLower) ||
-      (item.Date_Return?.toLowerCase() || "").includes(searchLower) ||
-      // Also search by status
-      (item.Status?.toLowerCase() || "").includes(searchLower)
+      searchLower === "" ||
+      [
+        item.Shop_Name,
+        item.Customer_Name,
+        item.Order_ID,
+        item.Status,
+        // item.Transaction_ID,
+      ].some((value) => value?.toLowerCase().includes(searchLower))
     );
   });
 
   const sortedData = [...filteredData].sort((a, b) => {
-    // Special case for date sorting - use the raw dates
     if (sortKey === "Date_Purchased") {
-      // Ensure we have valid dates to compare
       const dateA = a.rawPurchaseDate instanceof Date ? a.rawPurchaseDate : new Date(0);
       const dateB = b.rawPurchaseDate instanceof Date ? b.rawPurchaseDate : new Date(0);
       
@@ -89,7 +82,6 @@ const Refund = () => {
     }
     
     if (sortKey === "Date_Return") {
-      // Ensure we have valid dates to compare
       const dateA = a.rawReturnDate instanceof Date ? a.rawReturnDate : new Date(0);
       const dateB = b.rawReturnDate instanceof Date ? b.rawReturnDate : new Date(0);
       
@@ -100,7 +92,7 @@ const Refund = () => {
       }
     }
     
-    // For other fields
+
     if (a[sortKey] < b[sortKey]) return sortDirection === "asc" ? -1 : 1;
     if (a[sortKey] > b[sortKey]) return sortDirection === "asc" ? 1 : -1;
     return 0;
@@ -110,7 +102,7 @@ const Refund = () => {
     const newKey = e.target.value;
     setSortKey(newKey);
     
-    // Set appropriate sort direction based on field
+    
     if (newKey === "Date_Purchased" || newKey === "Date_Return") {
       setSortDirection("desc"); // Newest first for dates
     } else {
@@ -156,9 +148,7 @@ const Refund = () => {
   };
 
   // Update status function (add this)
-  const updateStatus = (item) => {
-    // In a real app, you would send this to your API
-    // For now, just update the local state
+  const updateStatus = (item) => {e
     const updatedData = data.map(d => 
       d.id === item.id ? {...d, Status: item.Status} : d
     );
@@ -202,8 +192,8 @@ const Refund = () => {
         </div>
       </div>
 
-      <div className="bg-transparent md:overflow-hidden sm:overflow-scroll mb-6">
-        <div className="overflow-x-auto md:block hidden">
+      <div className="bg-transparent lg:overflow-hidden md:overflow-x-scroll mb-6">
+        <div className="md:block hidden">
           <table className="md:table-fixed table-none min-w-full">
             <thead>
               <tr className="bg-transparent border-b border-[#EEEEEE]">
@@ -322,7 +312,7 @@ const Refund = () => {
         <div className="mt-3 flex gap-2">
           <button
             onClick={() => openDetailsModal(item)}
-            className="bg-[#0034B3] hover:bg-blue-700 border-2 w-full text-white px-3 py-2 rounded-md text-xs font-medium transition-colors"
+            className="bg-[#1683FF] hover:bg-blue-600 border-2 w-full text-white px-3 py-2 rounded-md text-xs font-medium transition-colors"
           >
             View Details
           </button>
@@ -344,7 +334,7 @@ const Refund = () => {
           <button
             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
             disabled={currentPage === 1}
-            className={`w-8 h-8 flex items-center justify-center mx-1 border rounded-md font-poppins font-medium border-[#EEEEEE] bg-[#F5F5F5] ${
+            className={`w-8 h-8 flex items-center justify-center mx-1 border rounded-full font-poppins font-medium border-[#EEEEEE] bg-[#F5F5F5] ${
               currentPage === 1 ? "bg-gray-100 text-gray-400 cursor-not-allowed" : "bg-white hover:bg-gray-50 text-gray-700"
             } transition-colors`}
           >
@@ -355,9 +345,9 @@ const Refund = () => {
             <button
               key={index}
               onClick={() => typeof pageNum === 'number' ? setCurrentPage(pageNum) : null}
-              className={`w-8 h-8 flex items-center justify-center mx-1 border rounded-md font-poppins font-medium border-[#EEEEEE] text-[#404B52] ${
+              className={`w-8 h-8 flex items-center justify-center mx-1 border rounded-full font-poppins font-medium border-[#EEEEEE] text-[#404B52] ${
                 currentPage === pageNum 
-                  ? "bg-[#264ECA] text-white border-[#5932EA] border-2" 
+                  ? "bg-[#1683FF] text-white border-[#5932EA] border-2" 
                   : pageNum === "..." 
                     ? "cursor-default border-0" 
                     : "bg-[#F5F5F5] hover:bg-gray-50 text-gray-700"
@@ -370,7 +360,7 @@ const Refund = () => {
           <button
             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
             disabled={currentPage === totalPages || totalPages === 0}
-            className={`w-8 h-8 flex items-center justify-center mx-1 border rounded-md font-poppins font-medium border-[#EEEEEE] bg-[#F5F5F5] ${
+            className={`w-8 h-8 flex items-center justify-center mx-1 border rounded-full font-poppins font-medium border-[#EEEEEE] bg-[#F5F5F5] ${
               currentPage === totalPages || totalPages === 0 
                 ? "bg-gray-100 text-gray-400 cursor-not-allowed" 
                 : "bg-white hover:bg-gray-50 text-gray-700"
@@ -384,7 +374,7 @@ const Refund = () => {
       {/* Modal */}
       {showModal && selectedItem && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setShowModal(false)}></div>
+          <div className="absolute inset-0 bg-black/50" onClick={() => setShowModal(false)}></div>
           <div className="bg-white rounded-lg shadow-xl w-full max-w-xl z-10 overflow-hidden">
             <div className="flex justify-between items-center p-6 border-b border-gray-200">
               <h3 className="text-xl font-semibold text-gray-800">Edit User Details</h3>

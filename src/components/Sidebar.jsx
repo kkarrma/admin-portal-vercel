@@ -32,7 +32,7 @@ export default function Sidebar({ children }) {
         {
             name: "Return & Refund Order",
             icon: <PiPackage />,
-            href: "/orders/return-and-refund",
+            href: "/orders/return-refund",
             access: "ADMIN"
         },
         {
