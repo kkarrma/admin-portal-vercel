@@ -44,10 +44,13 @@ const ReturnRefund = () => {
 
   // Status tracking for timeline in details modal
   const statusItems = [
-    { status: "Return Requested", time: "Mar 18, 9:41 AM", active: true, highlight: false },
-    { status: "Reviewing", time: "Mar 18, 10:30 AM", active: true, highlight: false },
-    { status: "Approved", time: "Pending", active: selectedItem?.Status === "Approved", highlight: true },
-    { status: "Refund Processed", time: "Pending", active: selectedItem?.Status === "Completed", highlight: false }
+    { status: "Request Denied", time: "Mar 18, 9:41 AM", active: selectedItem?.Status === "Denied", highlight: false },
+    { status: "Refunded", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Approved", highlight: false },
+    { status: "Item Returned", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Completed", highlight: true },
+    { status: "Pick up by Rider", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Picked Up", highlight: false },
+    { status: "Returning Process", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Reviewing", highlight: false },
+    { status: "Approved", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Confirmed", highlight: false },
+    { status: "Pending", time: "Pending", active: selectedItem?.Status === "Pending", highlight: false },
   ];
 
   // Handle sort change
@@ -163,7 +166,7 @@ const ReturnRefund = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-webpage-bg">
       {/* Search and Sort Component */}
       <SearchSortContainer
         search={search}
