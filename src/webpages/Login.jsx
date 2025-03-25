@@ -1,14 +1,15 @@
-import blob_bg from "../assets/blob.png";
-import upper_left_paw_path from "../assets/upper-left-paw-path.png";
-import lower_right_paw_path from "../assets/lower-right-paw-path.png";
-import unleash_banner_white from "../assets/unleash_banner_white.png";
-import { CiMail } from "react-icons/ci";
-import { FiLock } from "react-icons/fi";
+import blob_bg from "../assets/sign-in-page/blob.png";
+import upper_left_paw_path from "../assets/sign-in-page/upper-left-paw-path.png";
+import lower_right_paw_path from "../assets/sign-in-page/lower-right-paw-path.png";
+import unleash_banner from "../assets/unleash_banner.png";
+import animals_design from "../assets/sign-in-page/sign-in-page-animals.png"
+import { FaUserLarge } from "react-icons/fa6";
+import { IoIosLock } from "react-icons/io";
 import "./styles/webpage.scss"
 import Input from "../components/Input";
 
 /**
- * @typedef {"SIGN_IN" | "SIGN_UP_MERCHANT" | "SIGN_IN_MERCHANT"} ModeType
+ * @typedef {"SIGN_IN" | "SIGN_UP"} ModeType
  */
 
 /**
@@ -26,22 +27,43 @@ export default function Login({ mode }) {
                 <img src={lower_right_paw_path} alt="background element" className="bottom-8 right-80 absolute opacity-[.18] w-36" />
             </div>
 
-            <div className="absolute inset-0 w-80 mx-auto flex flex-col justify-center items-center">
-                <img src={unleash_banner_white} alt="background element" className="h-16 mb-12" />
+            <div className="absolute top-1/2 left-1/2 -translate-1/2 w-md py-9 px-14 rounded-2xl flex flex-col gap-4 justify-center bg-website-light">
+                <img
+                    src={animals_design}
+                    alt="background element"
+                    className="w-full absolute top-0 left-0 transform -translate-y-full"
+                />
 
-                {/* email input */}
-                <Input type="email" label="Email" id="email" LeftIcon={<CiMail />} />
-                <Input type="password" label="Password" id="password" LeftIcon={<FiLock />} />
-                <div className="w-full h-10 cursor-pointer hover:brightness-90 font-montserrat font-semibold text-white bg-unleash-orange rounded-sm shadow-md flex justify-center items-center mt-4">
-                    {mode === "SIGN_UP_MERCHANT" ? "CREATE AN ACCOUNT" : "LOGIN"}
+                {/* Unleash Logo */}
+                <img src={unleash_banner} alt="background element" className="h-10 w-fit" />
+
+                {/* Merchant Sign In */}
+                {mode === "SIGN_IN" && (
+                    <>
+                        <p className="font-montserrat text-base font-bold">Log in to your Merchant Account.</p>
+                        <div className="font-montserrat text-xs font-medium text-website-gray">
+                            New here? Register as a Merchant!
+                        </div>
+                        <p className="font-montserrat text-xs font-medium text-unleash-blue bg-website-gray-100 border-2 border-unleash-blue rounded-sm w-full text-center py-4 cursor-pointer select-none hover:brightness-95">Register as a Merchant</p>
+                    </>
+                )}
+
+                {/* line */}
+                <div className="w-full h-0.5 bg-website-gray rounded-full"></div>
+
+                {/* email & password input */}
+                <Input type="email" label="Email" id="email" LeftIcon={<FaUserLarge className="p-1" />} />
+                <Input type="password" label="Password" id="password" LeftIcon={<IoIosLock />} toggle />
+
+                {/* Primary Button */}
+                <div className="w-full py-3 cursor-pointer hover:brightness-90 font-montserrat font-medium text-white bg-unleash-blue rounded-sm flex justify-center items-center text-xs">
+                    {mode === "SIGN_UP" ? "CREATE AN ACCOUNT" : "Log in"}
                 </div>
-                {mode === "SIGN_IN" && <div className="w-full h-10 cursor-pointer hover:brightness-90 font-montserrat font-semibold text-white bg-unleash-blue-light rounded-sm shadow-md flex justify-center items-center mt-2">
-                    REGISTER AS A NEW MERCHANT
-                </div>}
 
-                <p className="font-montserrat text-sm text-white ps-3 text-right mt-1 cursor-pointer ms-auto hover:brightness-90">
-                    Forgot password?
-                </p>
+                {/* Secondary Button */}
+                <div className="w-full cursor-pointer hover:brightness-90 font-montserrat font-medium text-unleash-blue rounded-sm flex justify-center items-center text-sm brightness-95">
+                    {mode === "SIGN_UP" ? "CREATE AN ACCOUNT" : "Forgot Password"}
+                </div>
             </div>
         </div>
     )
