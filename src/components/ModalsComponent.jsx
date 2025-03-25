@@ -37,9 +37,9 @@ const ModalsComponent = ({
             <p className="text-sm text-gray-600 text-left pl-2 mb-4">Customer and products details return</p>
             <div className="grid grid-cols-3 gap-6">
               <div className="col-span-2">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-4 pt-4">
                   {/* Customer Info */}
-                  <div className="flex flex-col ml-2">
+                  <div className="flex flex-col ml-2 pt-6">
                     <div className="border-b border-gray-300 justify-items-start py-2">
                       <p className="font-medium text-md">{selectedItem.Customer_Name}</p>
                       <p className="text-sm text-gray-600">{selectedItem.Date_Purchased}</p>
@@ -58,6 +58,7 @@ const ModalsComponent = ({
                   <div className="bg-[#EEEEEF] p-3 rounded-md">
                     <div 
                       className="flex justify-between items-center cursor-pointer" 
+                      selected={isProductExpanded}
                       onClick={() => setIsProductExpanded(!isProductExpanded)}
                     >
                       <p className="font-medium">Product Info</p>
@@ -132,8 +133,8 @@ const ModalsComponent = ({
               </div>
               
               {/* Stepper - Right Column */}
-              <div className="border-gray-200 pl-4 pr-2 py-4 flex items-start">
-                <div className="w-full">
+              <div className="border-gray-200 pl-4 pr-2 flex items-start">
+                <div className="w-full mt-[-1rem]">
                   {statusItems.map((item, index) => (
                     <div className="flex cursor-pointer hover:bg-gray-50 rounded" key={index} onClick={() => console.log(`Status clicked: ${item.status}`)}>
                       <div className="flex flex-col items-center mr-3">
@@ -197,7 +198,7 @@ const ModalsComponent = ({
             </button>
           </div>
           <div className="p-6">
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 gap-6">
               <div className="col-span-1">
                 <label className="block text-sm text-black font-poppins font-semibold mb-2">
                   Customer Name

@@ -15,7 +15,7 @@ const ReturnRefund = () => {
   const [modalType, setModalType] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
   const [isProductExpanded, setIsProductExpanded] = useState(false);
-  const itemsPerPage = 7;
+  const [itemsPerPage , setItemsPerPage] = useState(7);
 
   // Fetch data from the API
   useEffect(() => {
@@ -44,7 +44,7 @@ const ReturnRefund = () => {
 
   // Status tracking for timeline in details modal
   const statusItems = [
-    { status: "Request Denied", time: "Mar 18, 9:41 AM", active: selectedItem?.Status === "Denied", highlight: false },
+    { status: "Request Denied", time: " ", active: selectedItem?.Status === "Denied", highlight: false },
     { status: "Refunded", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Approved", highlight: false },
     { status: "Item Returned", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Completed", highlight: true },
     { status: "Pick up by Rider", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Picked Up", highlight: false },
@@ -174,6 +174,7 @@ const ReturnRefund = () => {
         sortKey={sortKey}
         handleSortChange={handleSortChange}
         setCurrentPage={setCurrentPage}
+        filteredData={filteredData}
       />
 
       {/* Loading and Error States */}
@@ -197,6 +198,7 @@ const ReturnRefund = () => {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
           startIndex={startIndex}
           openDetailsModal={openDetailsModal}
           openStatusModal={openStatusModal}
