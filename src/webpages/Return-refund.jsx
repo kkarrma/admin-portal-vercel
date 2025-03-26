@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import SearchSortContainer from "../components/SearchSortContainer";
 import DataTable from "../components/DataTable";
-import ModalsComponent from "../components/ModalsComponent";
+import RefundModal from "../components/RefundModal";
+import Dashboard from "./Dashboard";
 
 const ReturnRefund = () => {
   const [data, setData] = useState([]);
@@ -14,8 +15,9 @@ const ReturnRefund = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
-  const [isProductExpanded, setIsProductExpanded] = useState(false);
+  const [isProductExpanded, setIsProductExpanded] = useState(true);
   const [itemsPerPage , setItemsPerPage] = useState(7);
+  const [pageHeaderName, setPageHeaderName] = useState("Return and Refund");
 
   // Fetch data from the API
   useEffect(() => {
@@ -166,7 +168,9 @@ const ReturnRefund = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-webpage-bg">
+    
+    <div className="container mx-12 px-6 py-8 bg-webpage-bg">
+      
       {/* Search and Sort Component */}
       <SearchSortContainer
         search={search}
@@ -175,6 +179,7 @@ const ReturnRefund = () => {
         handleSortChange={handleSortChange}
         setCurrentPage={setCurrentPage}
         filteredData={filteredData}
+        pageHeaderName ="Return & Refund Management"
       />
 
       {/* Loading and Error States */}
@@ -207,7 +212,7 @@ const ReturnRefund = () => {
       )}
 
       {/* Modals Component */}
-      <ModalsComponent
+      <RefundModal
         showModal={showModal}
         setShowModal={setShowModal}
         modalType={modalType}

@@ -1,12 +1,15 @@
+//This is a reusable search and sort component
+//Just pass the needed props: search, setSearch, sortKey, handleSortChange, setCurrentPage, filteredData, pageHeaderName
+
 import React from 'react';
 
-const SearchSortContainer = ({ search, setSearch, sortKey, handleSortChange, setCurrentPage, filteredData}) => {
+const SearchSortContainer = ({ search, setSearch, sortKey, handleSortChange, setCurrentPage, filteredData, pageHeaderName} ) => {
   return (
     <div className="mx-auto max-w-full px-4 py-4 bg-white rounded-lg shadow mb-4">
       {/* Header with total count */}
       <div className="flex justify-between items-center mb-4 border-b border-gray-200 pt-4 pb-6">
         <div className="flex items-baseline">
-          <h1 className="text-3xl font-bold text-gray-800">Return & Refund Management</h1>
+          <h1 className="text-3xl font-bold text-gray-800">{pageHeaderName}</h1>
           <span className="ml-3 text-gray-500 text-lg">({filteredData.length})</span>
         </div>
       </div>

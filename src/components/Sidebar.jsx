@@ -29,13 +29,8 @@ export default function Sidebar({ children, role = "Merchant" }) {
         },
         {
             name: "Return & Refund Order",
-<<<<<<< HEAD
-            icon: <PiPackage />,
-            href: "/orders/return-refund",
-=======
             icon: <BsCartXFill />,
-            href: "/orders/return-and-refund",
->>>>>>> c5aded19deeaac44838e4cca821cf99ee2e630fc
+            href: "/orders/return-refund",
             access: "ADMIN"
         },
         {

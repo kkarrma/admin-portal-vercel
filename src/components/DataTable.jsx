@@ -175,8 +175,8 @@ const DataTable = ({
         </div>
 
         {/* Pagination and Row Range Info */}
-        <div className="flex justify-between items-center mb-6 mt-6">
-          <div className="text-xs text-[#6D6D71] font-poppins font-medium flex items-center px-4">
+        <div className="flex justify-between items-center mb-6 mt-6 mx-9">
+          <div className="text-xs text-[#6D6D71] font-poppins font-medium flex items-center">
             <span>Showing</span>
             <select
               value={itemsPerPage}
@@ -200,7 +200,7 @@ const DataTable = ({
             <button
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
-              className={`w-8 h-8 flex items-center justify-center mx-1 border rounded-full font-poppins font-medium border-[#EEEEEE] bg-[#F5F5F5] ${
+              className={`w-7 h-7 flex items-center justify-center mx-1 border rounded-full font-poppins font-medium border-[#EEEEEE] bg-[#F5F5F5] ${
                 currentPage === 1
                   ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                   : "bg-white hover:bg-gray-50 text-gray-700"
@@ -213,7 +213,7 @@ const DataTable = ({
               <button
                 key={index}
                 onClick={() => (typeof pageNum === "number" ? setCurrentPage(pageNum) : null)}
-                className={`w-8 h-8 flex items-center justify-center mx-1 border rounded-full font-poppins font-medium border-[#EEEEEE] text-[#404B52] ${
+                className={`w-7 h-7 flex items-center justify-center mx-1 border rounded-full text-xs font-poppins font-medium border-[#EEEEEE] text-[#404B52] ${
                   currentPage === pageNum
                     ? "bg-[#1683FF] text-white border-[#5932EA] border-2"
                     : pageNum === "..."
@@ -235,7 +235,7 @@ const DataTable = ({
                 currentPage === Math.ceil(filteredData.length / itemsPerPage) ||
                 filteredData.length === 0
               }
-              className={`w-8 h-8 flex items-center justify-center mx-1 border rounded-full font-poppins font-medium border-[#EEEEEE] bg-[#F5F5F5] ${
+              className={`w-7 h-7 flex items-center justify-center mx-1 border rounded-full font-poppins font-medium border-[#EEEEEE] bg-[#F5F5F5] ${
                 currentPage === Math.ceil(filteredData.length / itemsPerPage) ||
                 filteredData.length === 0
                   ? "bg-gray-100 text-gray-400 cursor-not-allowed"
