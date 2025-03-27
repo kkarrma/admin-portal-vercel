@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useState } from "react";
+import { RiExpandUpDownLine } from "react-icons/ri";
 
 const DataTable = ({
   filteredData,
+  paginatedData,
   currentPage,
   setCurrentPage,
   itemsPerPage,
   setItemsPerPage,
   openDetailsModal,
   openStatusModal,
-  getStatusClass
+  getStatusClass,
 }) => {
+  const [sortConfig, setSortConfig] = useState({
+    key: null,
+    direction: "asc",
+  });
+
   // Format date to Month DD, YYYY
   const formatDate = (dateString) => {
     if (!dateString) return "N/A";
@@ -21,13 +28,30 @@ const DataTable = ({
     });
   };
 
-  // Calculate paginatedData based on itemsPerPage and currentPage
-  const paginatedData = filteredData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  // Sort data based on selected header
+  const sortedData = [...paginatedData].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+    const aValue = a[sortConfig.key] || "";
+    const bValue = b[sortConfig.key] || "";
+    if (aValue < bValue) {
+      return sortConfig.direction === "asc" ? -1 : 1;
+    }
+    if (aValue > bValue) {
+      return sortConfig.direction === "asc" ? 1 : -1;
+    }
+    return 0;
+  });
 
-  // Function to get pagination numbers dynamically
+  // Handle sorting
+  const handleSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
+  // Get pagination numbers dynamically
   const getPageNumbers = () => {
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
     const pageNumbers = [];
@@ -66,24 +90,30 @@ const DataTable = ({
             <thead className="bg-gray-50">
               <tr>
                 {[
-                  "Profile",
-                  "Transaction ID",
-                  "Order ID",
-                  "Shop Name",
-                  "Customer Name",
-                  "Date Purchased",
-                  "Date Return",
-                  "Quantity",
-                  "Status",
-                  "Details",
-                  "Actions",
+                  { label: "Profile", key: "Shop_Profile" },
+                  { label: "Transaction ID", key: "Transaction_ID" },
+                  { label: "Order ID", key: "Order_ID" },
+                  { label: "Shop Name", key: "Shop_Name" },
+                  { label: "Customer Name", key: "Customer_Name" },
+                  { label: "Date Purchased", key: "Date_Purchased" },
+                  { label: "Date Return", key: "Date_Return" },
+                  { label: "Quantity", key: "Quantity" },
+                  { label: "Status", key: "Status" },
+                  { label: "Details", key: "null" },
+                  { label: "Actions", key: "null" },
                 ].map((header, index) => (
                   <th
                     key={index}
                     scope="col"
-                    className="px-4 py-3 text-left text-xs font-medium text-gray-500 w-1/11"
+                    className="px-4 py-3 text-center text-xs font-medium text-[#6D6D71] w-1/11 cursor-pointer"
+                    onClick={() => header.key && handleSort(header.key)}
                   >
-                    {header}
+                    <div className="inline-flex items-center">
+                      {header.label}
+                      {header.key && (
+                        <RiExpandUpDownLine className="ml-1 text-[#6D6D71] text-xs align-middle" />
+                      )}
+                    </div>
                   </th>
                 ))}
               </tr>
@@ -92,15 +122,17 @@ const DataTable = ({
         </div>
 
         {/* Inner Container for Table Body */}
-        <div className="bg-white rounded-b-xl mx-4 max-h-[52vh] overflow-y-auto">
+        <div className="bg-white rounded-b-xl mx-3 max-h-[52vh] overflow-y-auto">
           <table className="w-full divide-y divide-gray-200 lg:table-fixed">
-            <tbody className="divide-y divide-transparent">
-              {paginatedData.map((item) => (
+            <tbody className="divide-y divide-gray-100">
+              {sortedData.map((item) => (
                 <tr key={item.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 whitespace-nowrap">
                     <div className="flex items-center justify-center">
                       <img
-                        src={item.Shop_Profile || "https://via.placeholder.com/40"}
+                        src={
+                          item.Shop_Profile || "https://via.placeholder.com/40"
+                        }
                         alt={item.Shop_Name}
                         className="h-8 w-8 rounded-full"
                       />
@@ -142,7 +174,7 @@ const DataTable = ({
                     <div className="flex items-center justify-center">
                       <button
                         onClick={() => openDetailsModal(item)}
-                        className="bg-[#1683FF] hover:bg-blue-600 border text-white px-3 py-1 rounded-full text-xs font-medium transition-colors"
+                        className="bg-unleash-blue hover:bg-blue-600 border text-white px-3 py-1 rounded-full text-xs font-medium transition-colors"
                       >
                         View
                       </button>
@@ -181,10 +213,10 @@ const DataTable = ({
             <select
               value={itemsPerPage}
               onChange={(e) => {
-                setCurrentPage(1); // Reset to first page when changing items per page
+                setCurrentPage(1);
                 setItemsPerPage(Number(e.target.value));
               }}
-              className="mx-2 px-1 py-1 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mx-2 px-1 py-1 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-unleash-blue"
             >
               {[7, 10, 15, 20].map((size) => (
                 <option key={size} value={size}>
@@ -203,8 +235,8 @@ const DataTable = ({
               className={`w-7 h-7 flex items-center justify-center mx-1 border rounded-full font-poppins font-medium border-[#EEEEEE] bg-[#F5F5F5] ${
                 currentPage === 1
                   ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  : "bg-white hover:bg-gray-50 text-gray-700"
-              } transition-colors`}
+                  : "bg-white text-gray-700"
+              }`}
             >
               &lt;
             </button>
@@ -212,14 +244,14 @@ const DataTable = ({
             {getPageNumbers().map((pageNum, index) => (
               <button
                 key={index}
-                onClick={() => (typeof pageNum === "number" ? setCurrentPage(pageNum) : null)}
+                onClick={() =>
+                  typeof pageNum === "number" ? setCurrentPage(pageNum) : null
+                }
                 className={`w-7 h-7 flex items-center justify-center mx-1 border rounded-full text-xs font-poppins font-medium border-[#EEEEEE] text-[#404B52] ${
                   currentPage === pageNum
-                    ? "bg-[#1683FF] text-white border-[#5932EA] border-2"
-                    : pageNum === "..."
-                    ? "cursor-default border-0"
-                    : "bg-[#F5F5F5] hover:bg-gray-50 text-gray-700"
-                } transition-colors`}
+                    ? "bg-unleash-blue text-white border-[#5932EA] border-2"
+                    : "bg-[#F5F5F5] text-gray-700"
+                }`}
               >
                 {pageNum}
               </button>
@@ -239,8 +271,8 @@ const DataTable = ({
                 currentPage === Math.ceil(filteredData.length / itemsPerPage) ||
                 filteredData.length === 0
                   ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                  : "bg-white hover:bg-gray-50 text-gray-700"
-              } transition-colors`}
+                  : "bg-white text-gray-700"
+              }`}
             >
               &gt;
             </button>

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import SearchSortContainer from "../components/SearchSortContainer";
 import DataTable from "../components/DataTable";
 import RefundModal from "../components/RefundModal";
-import Dashboard from "./Dashboard";
 
 const ReturnRefund = () => {
   const [data, setData] = useState([]);
@@ -16,8 +15,8 @@ const ReturnRefund = () => {
   const [modalType, setModalType] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);
   const [isProductExpanded, setIsProductExpanded] = useState(true);
-  const [itemsPerPage , setItemsPerPage] = useState(7);
-  const [pageHeaderName, setPageHeaderName] = useState("Return and Refund");
+  const [itemsPerPage, setItemsPerPage] = useState(7);
+  const [pageHeaderName, setPageHeaderName] = useState("Return & Refund Management");
 
   // Fetch data from the API
   useEffect(() => {
@@ -63,6 +62,7 @@ const ReturnRefund = () => {
       setSortKey(key);
       setSortDirection("asc");
     }
+    setCurrentPage(1); // Reset to first page when sorting changes
   };
 
   // Filter data based on search term
@@ -81,27 +81,41 @@ const ReturnRefund = () => {
 
   // Sort data
   const sortedData = [...filteredData].sort((a, b) => {
-    if (!a[sortKey] || !b[sortKey]) return 0;
+    // Handle cases where the key might not exist
+    if (!a[sortKey] || !b[sortKey]) {
+      // If one item is missing the sort key, push it to the end
+      if (!a[sortKey]) return 1;
+      if (!b[sortKey]) return -1;
+      return 0;
+    }
     
-    const valueA = a[sortKey].toString().toLowerCase();
-    const valueB = b[sortKey].toString().toLowerCase();
+    const valueA = a[sortKey];
+    const valueB = b[sortKey];
     
-    // For date columns, convert to comparable values
+    // Special handling for date columns
     if (sortKey === "Date_Purchased" || sortKey === "Date_Return") {
       const dateA = new Date(valueA);
       const dateB = new Date(valueB);
       return sortDirection === "asc" ? dateA - dateB : dateB - dateA;
     }
     
-    // For other columns
-    if (sortDirection === "asc") {
-      return valueA.localeCompare(valueB);
-    } else {
-      return valueB.localeCompare(valueA);
+    // Special handling for numeric columns
+    if (sortKey === "Quantity") {
+      return sortDirection === "asc" 
+        ? Number(valueA) - Number(valueB) 
+        : Number(valueB) - Number(valueA);
     }
+    
+    // Default string comparison for other columns
+    const stringA = String(valueA).toLowerCase();
+    const stringB = String(valueB).toLowerCase();
+    
+    return sortDirection === "asc" 
+      ? stringA.localeCompare(stringB) 
+      : stringB.localeCompare(stringA);
   });
 
-  // Paginate data
+  // Paginate sorted data
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
 
@@ -168,9 +182,7 @@ const ReturnRefund = () => {
   };
 
   return (
-    
     <div className="container mx-12 px-6 py-8 bg-webpage-bg">
-      
       {/* Search and Sort Component */}
       <SearchSortContainer
         search={search}
@@ -179,7 +191,7 @@ const ReturnRefund = () => {
         handleSortChange={handleSortChange}
         setCurrentPage={setCurrentPage}
         filteredData={filteredData}
-        pageHeaderName ="Return & Refund Management"
+        pageHeaderName={pageHeaderName}
       />
 
       {/* Loading and Error States */}
