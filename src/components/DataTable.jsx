@@ -83,9 +83,9 @@ const DataTable = ({
   return (
     <div className="mx-auto max-w-full">
       {/* Data Table */}
-      <div className="bg-[#F9F9F9] rounded-xl shadow-md overflow-hidden">
+      <div className="bg-[#F9F9F9] rounded-xl shadow-md overflow-x-auto">
         {/* Table Header */}
-        <div className="overflow-x-auto">
+        <div className="">
           <table className="w-full divide-y divide-gray-200 lg:table-fixed">
             <thead className="bg-gray-50">
               <tr>
@@ -122,8 +122,8 @@ const DataTable = ({
         </div>
 
         {/* Inner Container for Table Body */}
-        <div className="bg-white rounded-b-xl mx-3 max-h-[52vh] overflow-y-auto">
-          <table className="w-full divide-y divide-gray-200 lg:table-fixed">
+        <div className="bg-white rounded-b-xl mx-3 max-h-[53vh] overflow-y-auto">
+          <table className="w-full divide-y divide-gray-200 table-fixed">
             <tbody className="divide-y divide-gray-100">
               {sortedData.map((item) => (
                 <tr key={item.id} className="hover:bg-gray-50">

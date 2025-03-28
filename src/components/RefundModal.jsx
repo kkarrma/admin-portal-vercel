@@ -5,6 +5,7 @@ import ProductInfo from './modal-elements/ProductInfo';
 import ProofImages from './modal-elements/ProofImages';
 import StatusStepper from './modal-elements/StatusStepper';
 import StatusModal from './StatusModal'; // Import the new StatusModal component
+import { FaCircleExclamation } from "react-icons/fa6";
 
 const RefundModal = ({
   showModal,
@@ -23,26 +24,13 @@ const RefundModal = ({
     
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-white/10 bg-opacity-50">
-        <div className="bg-white rounded-lg shadow-xl w-full max-w-3xl z-10 overflow-hidden">
+        <div className="bg-white rounded-lg shadow-xl w-full max-w-[95vh] z-10 overflow-hidden">
         <div className="flex items-center p-4 border-gray-200">
-          <div className="text-green-500 mr-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
+          <div className="text-[#6E6F78] mr-2 bg-[#00AC4F]/10 rounded-full p-2">
+            <FaCircleExclamation className="text-lg" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-800">
-            Product Details
+          <h3 className="text-lg font-semibold font-montserrat text-gray-800 pl-4">
+          Product Details
           </h3>
           <button
             onClick={() => setShowModal(false)}
