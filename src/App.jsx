@@ -16,14 +16,13 @@ function App() {
       <Sidebar accountStatus={{ value: accountStatus, setter: setAccountStatus }}>
         <Routes>
           <Route path="/sign-in" element={<Login mode="SIGN_IN" accountStatus={{ value: accountStatus, setter: setAccountStatus }} />} />
-          <Route path="/sign-in/merchant" element={<Login mode="SIGN_IN_MERCHANT" />} />
+          <Route path="/sign-in/merchant" element={<Login mode="SIGN_IN_MERCHANT" accountStatus={{ value: accountStatus, setter: setAccountStatus }} />} />
+          <Route path="/sign-up/merchant" element={<Login mode="SIGN_UP" accountStatus={{ value: accountStatus, setter: setAccountStatus }} />} />
           
           <Route path="/orders/return-and-refund" element={<Refund />} />
           <Route path="/orders/return-v2" element={<RefundV2 />} />
           <Route path="/orders/return-refund" element={<ReturnRefund />} />
           
-          <Route path="/sign-in/merchant" element={<Login mode="SIGN_IN_MERCHANT" accountStatus={{ value: accountStatus, setter: setAccountStatus }} />} />
-          <Route path="/sign-up/merchant" element={<Login mode="SIGN_UP" accountStatus={{ value: accountStatus, setter: setAccountStatus }} />} />
           {/* Protected Routes */}
           <Route path="/" element={
             accountStatus ?
