@@ -1,37 +1,35 @@
-import unleash_logo from "../assets/unleash_banner_white.png"
+import unleash_logo from "../assets/unleash_banner.png"
 import unleash_icon from "../assets/unleash_icon.png"
-import paw from "../assets/paw.png";
-import { BiHomeAlt } from "react-icons/bi";
-import { IoIosArrowForward } from "react-icons/io";
-import { IoCartOutline, IoClose } from "react-icons/io5";
-import { PiPackage } from "react-icons/pi";
+import { IoPaw } from "react-icons/io5";
+import { MdDashboard } from "react-icons/md";
+import { BsCartFill, BsCartXFill } from "react-icons/bs";
+import { IoMenu } from "react-icons/io5";
+import { TbReceiptFilled } from "react-icons/tb";
 import { RiRefund2Line } from "react-icons/ri";
-import { LuBox } from "react-icons/lu";
-import { HiOutlineNewspaper } from "react-icons/hi2";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FaBoxes, FaUsers, FaPaw } from "react-icons/fa";
 import { PiSignOutBold } from "react-icons/pi";
 import "./index.scss"
 import { useLocation, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 export default function Sidebar({ accountStatus, children }) {
 
     const SIDEBAR_ITEMS = [
         {
             name: "Dashboard",
-            icon: <BiHomeAlt />,
+            icon: <MdDashboard />,
             href: "/",
             access: "ADMIN"
         },
         {
             name: "Product Order",
-            icon: <IoCartOutline />,
+            icon: <BsCartFill />,
             href: "/orders/product",
             access: "ADMIN"
         },
         {
             name: "Return & Refund Order",
-            icon: <PiPackage />,
+            icon: <BsCartXFill />,
             href: "/orders/return-and-refund",
             access: "ADMIN"
         },
@@ -43,20 +41,26 @@ export default function Sidebar({ accountStatus, children }) {
         },
         {
             name: "Product Management",
-            icon: <LuBox />,
+            icon: <FaBoxes />,
             href: "/management/product",
             access: "ADMIN"
         },
         {
             name: "Article Management",
-            icon: <HiOutlineNewspaper />,
+            icon: <TbReceiptFilled />,
             href: "/management/article",
             access: "ADMIN"
         },
         {
             name: "User Management",
-            icon: <FaRegUserCircle />,
+            icon: <FaUsers />,
             href: "/management/user",
+            access: "ADMIN"
+        },
+        {
+            name: "Pet Breed Management",
+            icon: <FaPaw />,
+            href: "/management/pet-breed",
             access: "ADMIN"
         },
     ]
@@ -75,34 +79,41 @@ export default function Sidebar({ accountStatus, children }) {
                 {children}
             </>
             :
-            <div className="relative h-[100vh] bg-website-light">
-                <div className={`absolute z-10 bg-unleash-blue h-full shadow-sm flex flex-col py-8 ${open ? "w-72" : "w-auto"}`}
-                    onClick={() => setOpen(true)}>
-                    <div
-                        className={`absolute top-2 right-2 p-2 rounded-full hover:brightness-90 bg-unleash-blue cursor-pointer ${open ? "" : "hidden"}`}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setOpen(false);
-                        }}>
-                        <IoClose className="w-5 h-5 text-white" />
+            <div className="relative h-[100vh] bg-website-color">
+                <div className={`absolute z-10 bg-website-light h-[95.75%] top-[2.125%] left-5 shadow-sm flex flex-col pb-4 rounded-lg`}>
+
+                    {/* Dashboard Header */}
+                    <div className="flex flex-row items-center mx-8 gap-16 my-8">
+                        <div className={`flex flex-row gap-1 flex-1`}>
+                            <img src={open?unleash_logo:unleash_icon} alt="Unleash Logo" className={`transition-all select-none duration-100 h-10 ${open?"":""}`}
+                            onClick={() => setOpen(true)}/>
+                            <div className={`px-2 py-1 rounded-full bg-unleash-blue mt-auto h-fit justify-center items-center flex ${open ? "" : "hidden"}`}>
+                                <p className="text-[10px] font-montserrat text-white font-medium">{role}</p>
+                            </div>
+                        </div>
+                        <div className={`flex justify-center items-center cursor-pointer ${open ? "h-full w-7" : "hidden"}`}
+                            onClick={() => setOpen(false)}>
+                            <IoMenu className="w-6 h-6 text-website-gray" />
+                        </div>
                     </div>
-                    <div className={`transition-all duration-100 ${open ? "" : "p-3 rounded-lg w-fit mx-auto"}`}>
-                        <img src={open ? unleash_logo : unleash_icon} alt="Unleash Logo" className={`transition-all select-none duration-100 ${open ? "h-12 w-auto object-contain mx-auto" : "h-7 w-7"}`} />
-                    </div>
-                    <div className={`flex flex-col mt-16 h-full ${open ? "ps-6 " : "px-6"}`}>
+
+                    <div className="h-0.5 w-full bg-website-gray-200"></div>
+
+                    {/* Dashboard Items */}
+                    <div className={`flex flex-col items-center mt-8 flex-1`}>
                         {
                             SIDEBAR_ITEMS.map((item, index) => <SidebarItem id={index} open={open} currentLocation={location.pathname} icon={item.icon} name={item.name} href={item.href} />)
                         }
                     </div>
 
                     <div
-                        className={`flex flex-row transition-all duration-200 flex-1 font-poppins mb-4 select-none text-white rounded-l-lg cursor-pointer items-center bg-unleash-blue hover:brightness-90
-                            ${open ? "opacity-[.68] ms-3 p-5 " : "rounded-r-lg opacity-100 mx-auto p-3"}`}
+                        className={`flex flex-row transition-all duration-200 font-montserrat mb-4 text-sm font-medium select-none text-website-gray-400 rounded-lg cursor-pointer items-center bg-website-light hover:brightness-95
+                            ${open ? "opacity-[.68] mx-3 p-5 " : "opacity-100 mx-auto p-3"}`}
                         onClick={(e) => logout()}>
                         <PiSignOutBold className={`${open ? "w-5 h-5" : "w-7 h-7"}`} />
                         <p className={`text-sm transition-all duration-100 ease-in-out ${open ? "w-full ms-4" : "w-0 text-nowrap overflow-hidden"}`}>Logout</p>
                     </div>
-                    <img src={paw} alt="paw" className="absolute opacity-[.18] -rotate-[70.18deg] w-8 h-auto bottom-5 right-5 z-10" />
+                    <IoPaw className={`absolute opacity-[.18] text-website-gray-400 -rotate-[23.21deg] w-8 h-auto bottom-5 right-5 z-10 ${open ? "" : "hidden"}`} />
                 </div>
                 <div className={`flex-1 duration-150 ease-in-out ${open ? "ms-80" : "ms-28"}`}>
                     {children}
@@ -120,20 +131,15 @@ function SidebarItem({ currentLocation, icon, name, href, open }) {
     }
 
     return (
-        <div
-            className={`flex flex-row items-center p-3 w-full cursor-pointer rounded-l-lg transition-all duration-500 ease-in-out hover:brightness-90
-                ${state ? "bg-white text-unleash-orange" : "bg-unleash-blue text-white "}
-                ${open ? "" : "rounded-r-lg"}`}
+        <div className={`flex flex-row items-center cursor-pointer rounded-lg hover:brightness-95
+                ${state ? "bg-website-color text-unleash-blue" : "bg-website-light text-website-gray "}
+                ${open ? "w-[84.85%] py-4 px-3" : "w-14 h-14"}`}
             onClick={(e) => onClickAction(e, href)}>
-            {icon && React.cloneElement(icon, { className: "w-7 h-7" })}
+            {icon && React.cloneElement(icon, { className: "w-6 h-6 mx-auto" })}
             <p
-                className={`font-poppins text-sm select-none transition-all duration-100 ease-in-out
-                ${open ? "w-full ms-3" : "w-0 text-nowrap overflow-hidden"}`} >
+                className={`font-poppins text-sm select-none ${open ? "w-full ms-3" : "hidden"}`} >
                 {name}
             </p>
-            <IoIosArrowForward className={`w-7 h-7 transition-transform duration-200 ease-in-out
-                ${state ? "hidden" : "bg-unleash-blue text-white "}
-                ${open ? "" : "hidden"}`} />
         </div>
     );
 }
