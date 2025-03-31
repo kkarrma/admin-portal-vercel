@@ -24,13 +24,13 @@ const RefundModal = ({
     
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-white/10 bg-opacity-50">
-        <div className="bg-white rounded-lg shadow-xl w-full max-w-[95vh] z-10 overflow-hidden">
+        <div className="bg-white rounded-lg shadow-xl w-full max-w-[100dvh] z-10 overflow-hidden">
         <div className="flex items-center p-4 border-gray-200">
           <div className="text-[#6E6F78] mr-2 bg-[#00AC4F]/10 rounded-full p-2">
             <FaCircleExclamation className="text-lg" />
           </div>
           <h3 className="text-lg font-semibold font-montserrat text-gray-800 pl-4">
-          Product Details
+          Return Details
           </h3>
           <button
             onClick={() => setShowModal(false)}

@@ -30,7 +30,7 @@ const ReturnRefund = () => {
     { label: "Quantity", key: "Quantity", type: "number" },
     { label: "Status", key: "Status", type: "status" },
     { label: "Details", key: null, type: "button", buttonText: "View", onClick: openDetailsModal },
-    { label: "Actions", key: null, type: "action", onClick: openStatusModal }
+    { label: "Actions", key: null, type: "action", onClick: openStatusModal },
   ];
 
   // Fetch data from the API
