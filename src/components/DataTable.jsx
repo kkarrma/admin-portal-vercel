@@ -216,7 +216,7 @@ const DataTable = ({
                 setCurrentPage(1);
                 setItemsPerPage(Number(e.target.value));
               }}
-              className="mx-2 px-1 py-1 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-unleash-blue"
+              className="mx-2 px-1 py-1 bg-[#E4EBF3] text-[#222A50] rounded-full focus:outline-none focus:ring-2 focus:ring-unleash-blue"
             >
               {[7, 10, 15, 20].map((size) => (
                 <option key={size} value={size}>
