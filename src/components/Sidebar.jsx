@@ -12,7 +12,7 @@ import "./index.scss"
 import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 
-export default function Sidebar({ accountStatus, children }) {
+export default function Sidebar({ accountStatus, children, role = "Super Admin" }) {
 
     const SIDEBAR_ITEMS = [
         {
