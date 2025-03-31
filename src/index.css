@@ -12,4 +12,27 @@
   --color-website-light: #F8F9FE;
   --color-website-gray-light: #F9F9F9;
   --color-website-gray: #6E6F78;
+  --color-website-red: #F45E4E;
+  --color-website-red-light: #FFBDB6;
+
+  --animate-float-in-out: floatInOut 2.5s ease-in-out infinite;
+
+  @keyframes floatInOut {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    20% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    90% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
 }

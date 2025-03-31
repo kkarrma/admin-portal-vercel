@@ -14,7 +14,7 @@ import "./index.scss"
 import { useLocation, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
-export default function Sidebar({ children }) {
+export default function Sidebar({ accountStatus, children }) {
 
     const SIDEBAR_ITEMS = [
         {
@@ -66,7 +66,7 @@ export default function Sidebar({ children }) {
     const [open, setOpen] = useState(true);
 
     const logout = () => {
-        navigate("/sign-in");
+        accountStatus.setter(false);
     }
 
     return (

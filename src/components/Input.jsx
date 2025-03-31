@@ -9,7 +9,7 @@ import { FaEyeSlash } from "react-icons/fa";
 /**
  * @param {{ type: typeType }} props
  */
-export default function Input({ type = "text", label = "", id = "", LeftIcon, toggle = false, toggleState = false }) {
+export default function Input({ type = "text", label = "", id = "", LeftIcon, toggle = false, toggleState = false, input, setInput }) {
     const [isActive, setIsActive] = useState(false);
     const [tempType, setTempType] = useState(type);
     const [toggleCurrentState, setToggleCurrentState] = useState(toggleState);
@@ -39,7 +39,11 @@ export default function Input({ type = "text", label = "", id = "", LeftIcon, to
                 type={tempType}
                 className="bg-transparent outline-none w-full font-montserrat text-base border-none focus:outline-none focus:ring-0 text-black"
                 onFocus={() => setIsActive(true)}
-                onBlur={(e) => setIsActive(e.target.value !== "")} // Keep active if there's text
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onBlur={(e) => setIsActive(e.target.value !== "")
+
+                } // Keep active if there's text
             />
             {toggle && type === "password" && (
                 toggleCurrentState ?
