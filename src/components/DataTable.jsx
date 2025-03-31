@@ -122,7 +122,7 @@ const DataTable = ({
         </div>
 
         {/* Inner Container for Table Body */}
-        <div className="bg-white rounded-b-xl mx-3 max-h-[53vh] overflow-y-auto">
+        <div className="bg-white rounded-b-xl mx-3 max-h-[53dvh] overflow-y-auto">
           <table className="w-full divide-y divide-gray-200 table-fixed">
             <tbody className="divide-y divide-gray-100">
               {sortedData.map((item) => (
