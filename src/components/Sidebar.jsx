@@ -30,7 +30,7 @@ export default function Sidebar({ accountStatus, children }) {
         {
             name: "Return & Refund Order",
             icon: <BsCartXFill />,
-            href: "/orders/return-and-refund",
+            href: "/orders/return-refund",
             access: "ADMIN"
         },
         {
