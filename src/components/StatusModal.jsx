@@ -59,7 +59,7 @@ const StatusModal = ({
       {/* Modal content */}
       <div className="bg-white rounded-lg w-full max-w-md z-10 shadow-lg">
         {/* Modal Header */}
-        <div className="flex items-center p-4 border-b border-gray-200">
+        <div className="flex items-center p-4">
           <div className="text-[#00AC4F] mr-2 bg-[#00AC4F]/10 rounded-full p-2">
             <FaCircleExclamation className="text-lg" />
           </div>

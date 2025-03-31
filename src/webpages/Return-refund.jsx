@@ -165,13 +165,13 @@ const ReturnRefund = () => {
   const getStatusClass = (status) => {
     switch (status) {
       case "Approved":
-        return "bg-green-100 bg-opacity-10 text-green-400";
+        return "bg-green-50 bg-opacity-10 text-green-400";
       case "Pending":
-        return "bg-yellow-100 bg-opacity-10 text-yellow-400";
+        return "bg-amber-50 bg-opacity-10 text-yellow-400";
       case "Cancelled":
-        return "bg-red-100 bg-opacity-10 text-red-400";
+        return "bg-red-50 bg-opacity-10 text-red-400";
       default:
-        return "bg-blue-100 bg-opacity-10 text-blue-400";
+        return "bg-blue-50 bg-opacity-10 text-blue-400";
     }
   };
 
