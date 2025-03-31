@@ -111,7 +111,7 @@ const StatusModal = ({
           </div>
 
           {/* Status Selection */}
-          <div className="bg-gray-100 p-4 flex items-center relative">
+          <div className="bg-gray-100 p-4 flex items-center relative focus-within:ring-2 focus-within:ring-unleash-blue">
             {cartIcon(selectedItem.Status)}
 
             {/* Custom Dropdown Button */}

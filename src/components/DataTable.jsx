@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { RiExpandUpDownLine } from "react-icons/ri";
-import { FaCircleCheck, FaCircleXmark  } from "react-icons/fa6";
+import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { BiSolidEdit } from "react-icons/bi";
 
 const DataTable = ({
+  columns,
   filteredData,
   paginatedData,
   currentPage,
   setCurrentPage,
   itemsPerPage,
   setItemsPerPage,
-  openDetailsModal,
-  openStatusModal,
   getStatusClass,
 }) => {
   const [sortConfig, setSortConfig] = useState({
@@ -92,6 +91,63 @@ const DataTable = ({
     }
   };
 
+  // Render cell content based on column type
+  const renderCellContent = (item, column) => {
+    switch (column.type) {
+      case "image":
+        return (
+          <div className="flex items-center justify-center">
+            <img
+              src={item[column.key] || "https://via.placeholder.com/40"}
+              alt={item.Shop_Name || "Shop"}
+              className="h-8 w-8 rounded-full"
+            />
+          </div>
+        );
+      case "date":
+        return formatDate(item[column.key]);
+      case "number":
+        return (
+          <div className="text-center">
+            {item[column.key] || "0"}
+          </div>
+        );
+      case "status":
+        return (
+          <div className="flex items-center justify-center">
+            <span
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusClass(
+                item[column.key]
+              )}`}
+            >
+              {item[column.key] || "Pending"}
+            </span>
+          </div>
+        );
+      case "button":
+        return (
+          <div className="flex items-center justify-center">
+            <button
+              onClick={() => column.onClick(item)}
+              className="bg-unleash-blue hover:bg-blue-600 border text-white px-3 py-1 rounded-full text-xs font-medium transition-colors"
+            >
+              {column.buttonText || "Action"}
+            </button>
+          </div>
+        );
+      case "action":
+        return (
+          <div className="flex items-center justify-center">
+            <button onClick={() => column.onClick(item)}>
+              {actionIcon(item.Status)}
+            </button>
+          </div>
+        );
+      default:
+        return item[column.key] || "-";
+    }
+  };
+
   return (
     <div className="mx-auto max-w-full">
       {/* Data Table */}
@@ -101,28 +157,16 @@ const DataTable = ({
           <table className="w-full divide-y divide-gray-200 lg:table-fixed">
             <thead className="bg-gray-50">
               <tr>
-                {[
-                  { label: "Profile", key: "Shop_Profile" },
-                  { label: "Transaction ID", key: "Transaction_ID" },
-                  { label: "Order ID", key: "Order_ID" },
-                  { label: "Shop Name", key: "Shop_Name" },
-                  { label: "Customer Name", key: "Customer_Name" },
-                  { label: "Date Purchased", key: "Date_Purchased" },
-                  { label: "Date Return", key: "Date_Return" },
-                  { label: "Quantity", key: "Quantity" },
-                  { label: "Status", key: "Status" },
-                  { label: "Details", key: "null" },
-                  { label: "Actions", key: "null" },
-                ].map((header, index) => (
+                {columns.map((column, index) => (
                   <th
                     key={index}
                     scope="col"
                     className="px-4 py-3 text-center text-xs font-medium text-[#6D6D71] w-1/11 cursor-pointer"
-                    onClick={() => header.key && handleSort(header.key)}
+                    onClick={() => column.key && handleSort(column.key)}
                   >
                     <div className="inline-flex items-center">
-                      {header.label}
-                      {header.key && (
+                      {column.label}
+                      {column.key && (
                         <RiExpandUpDownLine className="ml-1 text-[#6D6D71] text-xs align-middle" />
                       )}
                     </div>
@@ -139,66 +183,11 @@ const DataTable = ({
             <tbody className="divide-y divide-gray-100">
               {sortedData.map((item) => (
                 <tr key={item.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="flex items-center justify-center">
-                      <img
-                        src={
-                          item.Shop_Profile || "https://via.placeholder.com/40"
-                        }
-                        alt={item.Shop_Name}
-                        className="h-8 w-8 rounded-full"
-                      />
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900">
-                    {item.Transaction_ID || "111234"}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900">
-                    {item.Order_ID || "00001"}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900">
-                    {item.Shop_Name || "Pedigree"}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900">
-                    {item.Customer_Name || "Winter Dela Rosa"}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900">
-                    {formatDate(item.Date_Purchased)}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900">
-                    {formatDate(item.Date_Return)}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900 text-center">
-                    {item.Quantity || "14"}
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="flex items-center justify-center">
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusClass(
-                          item.Status
-                        )}`}
-                      >
-                        {item.Status || "Pending"}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="flex items-center justify-center">
-                      <button
-                        onClick={() => openDetailsModal(item)}
-                        className="bg-unleash-blue hover:bg-blue-600 border text-white px-3 py-1 rounded-full text-xs font-medium transition-colors"
-                      >
-                        View
-                      </button>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="flex items-center justify-center">
-                      <button onClick={() => openStatusModal(item)}>
-                        {actionIcon(item.Status)}
-                      </button>
-                    </div>
-                  </td>
+                  {columns.map((column, index) => (
+                    <td key={index} className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900">
+                      {renderCellContent(item, column)}
+                    </td>
+                  ))}
                 </tr>
               ))}
             </tbody>

@@ -18,6 +18,21 @@ const ReturnRefund = () => {
   const [itemsPerPage, setItemsPerPage] = useState(7);
   const [pageHeaderName, setPageHeaderName] = useState("Return & Refund Management");
 
+  // Define table columns configuration
+  const tableColumns = [
+    { label: "Profile", key: "Shop_Profile", type: "image" },
+    { label: "Transaction ID", key: "Transaction_ID", type: "text" },
+    { label: "Order ID", key: "Order_ID", type: "text" },
+    { label: "Shop Name", key: "Shop_Name", type: "text" },
+    { label: "Customer Name", key: "Customer_Name", type: "text" },
+    { label: "Date Purchased", key: "Date_Purchased", type: "date" },
+    { label: "Date Return", key: "Date_Return", type: "date" },
+    { label: "Quantity", key: "Quantity", type: "number" },
+    { label: "Status", key: "Status", type: "status" },
+    { label: "Details", key: null, type: "button", buttonText: "View", onClick: openDetailsModal },
+    { label: "Actions", key: null, type: "action", onClick: openStatusModal }
+  ];
+
   // Fetch data from the API
   useEffect(() => {
     const fetchData = async () => {
@@ -120,17 +135,17 @@ const ReturnRefund = () => {
   const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
 
   // Modal functions
-  const openDetailsModal = (item) => {
+  function openDetailsModal(item) {
     setSelectedItem(item);
     setModalType("details");
     setShowModal(true);
-  };
+  }
 
-  const openStatusModal = (item) => {
+  function openStatusModal(item) {
     setSelectedItem(item);
     setModalType("status");
     setShowModal(true);
-  };
+  }
 
   // Update status function
   const updateStatus = async (item) => {
@@ -204,6 +219,7 @@ const ReturnRefund = () => {
       {/* Data Table Component */}
       {!loading && !error && (
         <DataTable
+          columns={tableColumns}
           paginatedData={paginatedData}
           filteredData={filteredData}
           currentPage={currentPage}
@@ -211,8 +227,6 @@ const ReturnRefund = () => {
           itemsPerPage={itemsPerPage}
           setItemsPerPage={setItemsPerPage}
           startIndex={startIndex}
-          openDetailsModal={openDetailsModal}
-          openStatusModal={openStatusModal}
           getStatusClass={getStatusClass}
         />
       )}
