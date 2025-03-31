@@ -12,7 +12,7 @@ import "./index.scss"
 import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 
-export default function Sidebar({ children, role = "Merchant" }) {
+export default function Sidebar({ accountStatus, children }) {
 
     const SIDEBAR_ITEMS = [
         {
@@ -70,7 +70,7 @@ export default function Sidebar({ children, role = "Merchant" }) {
     const [open, setOpen] = useState(true);
 
     const logout = () => {
-        navigate("/sign-in");
+        accountStatus.setter(false);
     }
 
     return (
