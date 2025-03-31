@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { RiExpandUpDownLine } from "react-icons/ri";
+import { FaCircleCheck, FaCircleXmark  } from "react-icons/fa6";
+import { BiSolidEdit } from "react-icons/bi";
 
 const DataTable = ({
   filteredData,
@@ -78,6 +80,16 @@ const DataTable = ({
     }
 
     return pageNumbers;
+  };
+
+  const actionIcon = (status) => {
+    if (status === "Approved") {
+      return <FaCircleCheck className="text-green-600 text-xl" />;
+    } else if (status === "Cancelled") {
+      return <FaCircleXmark className="text-red-500 text-xl" />;
+    } else {
+      return <BiSolidEdit className="text-gray-500 text-xl" />;
+    }
   };
 
   return (
@@ -162,7 +174,7 @@ const DataTable = ({
                   <td className="px-4 py-3 whitespace-nowrap">
                     <div className="flex items-center justify-center">
                       <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusClass(
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusClass(
                           item.Status
                         )}`}
                       >
@@ -183,20 +195,7 @@ const DataTable = ({
                   <td className="px-4 py-3 whitespace-nowrap">
                     <div className="flex items-center justify-center">
                       <button onClick={() => openStatusModal(item)}>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                          />
-                        </svg>
+                        {actionIcon(item.Status)}
                       </button>
                     </div>
                   </td>
