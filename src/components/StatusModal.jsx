@@ -95,7 +95,7 @@ const StatusModal = ({
 
         <div className="p-4 space-y-4">
           {/* Customer Name */}
-          <div className="bg-gray-100 flex items-center p-4">
+          <div className="bg-gray-100 flex items-center p-4 rounded-lg">
             <FaUserLarge className="text-2xl text-gray-600 mr-3" />
             <span className="text-gray-800 ml-2 font-medium font-montserrat text-md">
               {selectedItem.Customer_Name}
@@ -103,7 +103,7 @@ const StatusModal = ({
           </div>
 
           {/* Purchase Date */}
-          <div className="bg-gray-100 p-4 flex items-center">
+          <div className="bg-gray-100 p-4 flex items-center rounded-lg">
             <IoCalendarClear className="text-2xl text-gray-600 mr-3" />
             <span className="text-gray-800 ml-2 font-medium font-montserrat text-md">
               {formatDate(selectedItem.Date_Purchased)}
@@ -111,7 +111,7 @@ const StatusModal = ({
           </div>
 
           {/* Status Selection */}
-          <div className="bg-gray-100 p-4 flex items-center relative focus-within:ring-2 focus-within:ring-unleash-blue">
+          <div className="bg-gray-100 rounded-lg p-4 flex items-center relative focus-within:ring-2 focus-within:ring-unleash-blue">
             {cartIcon(selectedItem.Status)}
 
             {/* Custom Dropdown Button */}

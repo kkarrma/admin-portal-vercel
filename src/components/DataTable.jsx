@@ -129,7 +129,7 @@ const DataTable = ({
           <div className="flex items-center justify-center">
             <button
               onClick={() => column.onClick(item)}
-              className="bg-unleash-blue hover:bg-blue-600 border text-white px-3 py-1 rounded-full text-xs font-medium transition-colors"
+              className="bg-unleash-blue-light hover:bg-blue-600 border text-white px-3 py-1 rounded-full text-xs font-medium transition-colors"
             >
               {column.buttonText || "Action"}
             </button>
@@ -235,10 +235,14 @@ const DataTable = ({
                 onClick={() =>
                   typeof pageNum === "number" ? setCurrentPage(pageNum) : null
                 }
-                className={`w-7 h-7 flex items-center justify-center mx-1 border rounded-full text-xs font-poppins font-medium border-[#EEEEEE] text-[#404B52] ${
-                  currentPage === pageNum
-                    ? "bg-unleash-blue text-white border-[#5932EA] border-2"
-                    : "bg-[#F5F5F5] text-gray-700"
+                className={`w-7 h-7 flex items-center justify-center mx-1 ${
+                  typeof pageNum !== "number"
+                    ? "border-none bg-transparent"
+                    : `border rounded-full text-xs font-poppins font-medium border-[#EEEEEE] text-[#404B52] ${
+                        currentPage === pageNum
+                          ? "bg-unleash-blue-light text-white border-[#5932EA] border-2"
+                          : "bg-[#F5F5F5] text-gray-700"
+                      }`
                 }`}
               >
                 {pageNum}
