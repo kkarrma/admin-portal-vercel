@@ -108,7 +108,7 @@ export default function Login({ mode, accountStatus }) {
                             "Log in to your Account."
                             : mode === "SIGN_IN_MERCHANT" ?
                                 "Log in to your Merchant Account." :
-                                "Sign Up to your Account."
+                                "Sign Up"
                     }
                 </p>
 
@@ -130,13 +130,15 @@ export default function Login({ mode, accountStatus }) {
                 <div className="w-full h-[1px] bg-website-gray rounded-full"></div>
 
                 {/* email & password input */}
-                <Input type="text" label="Username" id="username" LeftIcon={<FaUserLarge className="p-1" />} input={email} setInput={setEmail} />
+                <Input type="text" label={mode === "SIGN_UP" ? "Email Address" : "Username"} id={mode === "SIGN_UP" ? "email_address" : "username"} LeftIcon={<FaUserLarge className="p-1" />} input={email} setInput={setEmail} />
                 <Input type="password" label="Password" id="password" LeftIcon={<IoIosLock />} toggle input={password} setInput={setPassword} />
+                {mode === "SIGN_UP" &&
+                    <Input type="password" label="Confirm Password" id="confirm-password" LeftIcon={<IoIosLock />} toggle input={password} setInput={setPassword} />}
 
                 {/* Primary Button */}
                 <div className="w-full py-3 cursor-pointer hover:brightness-90 font-montserrat font-medium text-white bg-unleash-blue rounded-sm flex justify-center items-center text-xs"
                     onClick={() => primaryButtonTrigger()}>
-                    {mode === "SIGN_UP" ? "CREATE AN ACCOUNT" : "Log in"}
+                    {mode === "SIGN_UP" ? "Sign Up" : "Log in"}
                 </div>
 
                 {/* Secondary Button */}
