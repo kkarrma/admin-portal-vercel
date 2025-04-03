@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 /**
- * @typedef {"SIGN_IN" | "SIGN_IN_MERCHANT" | "SIGN_UP"} ModeType
+ * @typedef {"SIGN_IN" | "SIGN_UP"} ModeType
  */
 
 /**
@@ -22,20 +22,16 @@ import { useState } from "react";
 export default function Login({ mode, accountStatus }) {
 
     const MOCK_ACCOUNTS = {
-        admin: {
-            "super_admin": {
-                password: "password1234",
-                role: "super_admin"
-            },
-            "marketing1": {
-                password: "password1234",
-                role: "marketing_admin"
-            }
+        "super_admin": {
+            password: "password1234",
+            role: "super_admin"
         },
-        merchant: {
-            "merchant_account": {
-                password: "password1234"
-            }
+        "marketing1": {
+            password: "password1234",
+            role: "marketing_admin"
+        },
+        "merchant_account": {
+            password: "password1234"
         }
     }
 
@@ -47,15 +43,8 @@ export default function Login({ mode, accountStatus }) {
 
     const primaryButtonTrigger = () => {
         if (mode === "SIGN_IN") {
-            var credentials = password === MOCK_ACCOUNTS.admin[email]?.password;
-            if (!credentials) incorrectCredentials(MOCK_ACCOUNTS.admin);
-            else {
-                accountStatus.setter(true);
-                navigate("/");
-            }
-        } else if (mode === "SIGN_IN_MERCHANT") {
-            var credentials = password === MOCK_ACCOUNTS.merchant[email]?.password;
-            if (!credentials) incorrectCredentials(MOCK_ACCOUNTS.merchant);
+            var credentials = password === MOCK_ACCOUNTS[email]?.password;
+            if (!credentials) incorrectCredentials();
             else {
                 accountStatus.setter(true);
                 navigate("/");
@@ -63,15 +52,15 @@ export default function Login({ mode, accountStatus }) {
         }
     }
 
-    const incorrectCredentials = (system_emails) => {
+    const incorrectCredentials = () => {
         // set error message
         if (email === "") {
             setSignInError({ title: "Input credentials!", subtitle: "Please input your email." });
         } else if (password === "") {
             setSignInError({ title: "Input credentials!", subtitle: "Please input your password." });
-        } else if (!system_emails[email]) {
+        } else if (!MOCK_ACCOUNTS[email]) {
             setSignInError({ title: "Incorrect Email!", subtitle: "Email not registered in the system." });
-        } else if (password !== system_emails[email]?.password) {
+        } else if (password !== MOCK_ACCOUNTS[email]?.password) {
             setSignInError({ title: "Incorrect Password!", subtitle: "Please make sure the password is correct." });
         }
 
@@ -106,25 +95,20 @@ export default function Login({ mode, accountStatus }) {
                     {
                         mode === "SIGN_IN" ?
                             "Log in to your Account."
-                            : mode === "SIGN_IN_MERCHANT" ?
-                                "Log in to your Merchant Account." :
-                                "Sign Up"
+                            :
+                            "Sign Up"
                     }
                 </p>
 
-                {/* Merchant Sign In */}
-                {(mode === "SIGN_IN_MERCHANT") && (
-                    <>
-                        <div className="font-montserrat text-xs font-medium text-website-gray">
-                            New here? Register as a Merchant!
-                        </div>
-                        <p
-                            className="font-montserrat text-xs font-medium text-unleash-blue bg-website-gray-light border-[1px] border-unleash-blue rounded-sm w-full text-center py-4 cursor-pointer select-none hover:brightness-95"
-                            onClick={() => navigate("/sign-up/merchant")}>
-                            Register as a Merchant
-                        </p>
-                    </>
-                )}
+                {/* Merchant Sign Up */}
+                <div className="font-montserrat text-xs font-medium text-website-gray">
+                    New here? Sign up as a Merchant!
+                </div>
+                <p
+                    className="font-montserrat text-xs font-medium text-unleash-blue bg-website-gray-light border-[1px] border-unleash-blue rounded-sm w-full text-center py-4 cursor-pointer select-none hover:brightness-95"
+                    onClick={() => navigate("/sign-up")}>
+                    Sign up as a Merchant
+                </p>
 
                 {/* line */}
                 <div className="w-full h-[1px] bg-website-gray rounded-full"></div>
@@ -142,8 +126,7 @@ export default function Login({ mode, accountStatus }) {
                 </div>
 
                 {/* Secondary Button */}
-                <div className={`w-full cursor-pointer hover:brightness-90 font-montserrat font-medium text-unleash-blue rounded-sm flex justify-center items-center text-sm brightness-95
-                    ${mode === "SIGN_IN_MERCHANT" ? "" : "hidden"}`}>
+                <div className={`w-full cursor-pointer hover:brightness-90 font-montserrat font-medium text-unleash-blue rounded-sm flex justify-center items-center text-sm brightness-95`}>
                     Forgot Password
                 </div>
             </div>
