@@ -30,14 +30,16 @@ export default function Login({ mode, accountStatus }) {
             password: "password1234",
             role: "marketing_admin"
         },
-        "merchant_account": {
-            password: "password1234"
+        "merchant_account@gmail.com": {
+            password: "password1234",
+            role: "merchant"
         }
     }
 
     const navigate = useNavigate();
     const [signInError, setSignInError] = useState({ title: "", subtitle: "" });
     const [signInErrorStatus, setSignInErrorStatus] = useState(false);
+    const [signUpPage, setSignUpPage] = useState(1);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -48,6 +50,33 @@ export default function Login({ mode, accountStatus }) {
             else {
                 accountStatus.setter(true);
                 navigate("/");
+            }
+        } else if (mode === "SIGN_UP") {
+            switch (signUpPage) {
+                case 1:
+                    setSignUpPage(2);
+                    /**
+                     * temporarily store credentials.
+                     * send OTP to email.
+                     */
+                    break;
+                case 2:
+                    setSignUpPage(3);
+                    /**
+                     * store credentials as merchant account.
+                     */
+                    break;
+                case 3:
+                    /**
+                     * store profile details.
+                     * show popup of successful account creation.
+                     */
+                    break;
+                default:
+                    /**
+                     * DO NOTHING.
+                     */
+                    break;
             }
         }
     }
@@ -101,15 +130,17 @@ export default function Login({ mode, accountStatus }) {
                 </p>
 
                 {/* Merchant Sign Up */}
-                <div className="font-montserrat text-xs font-medium text-website-gray">
-                    New here? Sign up as a Merchant!
-                </div>
-                <p
-                    className="font-montserrat text-xs font-medium text-unleash-blue bg-website-gray-light border-[1px] border-unleash-blue rounded-sm w-full text-center py-4 cursor-pointer select-none hover:brightness-95"
-                    onClick={() => navigate("/sign-up")}>
-                    Sign up as a Merchant
-                </p>
-
+                {(mode === "SIGN_IN") && (<>
+                    <div className="font-montserrat text-xs font-medium text-website-gray">
+                        New here? Sign up as a Merchant!
+                    </div>
+                    <p
+                        className="font-montserrat text-xs font-medium text-unleash-blue bg-website-gray-light border-[1px] border-unleash-blue rounded-sm w-full text-center py-4 cursor-pointer select-none hover:brightness-95"
+                        onClick={() => navigate("/sign-up")}>
+                        Sign up as a Merchant
+                    </p>
+                </>)
+                }
                 {/* line */}
                 <div className="w-full h-[1px] bg-website-gray rounded-full"></div>
 
@@ -126,9 +157,9 @@ export default function Login({ mode, accountStatus }) {
                 </div>
 
                 {/* Secondary Button */}
-                <div className={`w-full cursor-pointer hover:brightness-90 font-montserrat font-medium text-unleash-blue rounded-sm flex justify-center items-center text-sm brightness-95`}>
+                {mode === "SIGN_IN" && <div className={`w-full cursor-pointer hover:brightness-90 font-montserrat font-medium text-unleash-blue rounded-sm flex justify-center items-center text-sm brightness-95`}>
                     Forgot Password
-                </div>
+                </div>}
             </div>
 
             <div className={`absolute flex flex-row z-20 justify-center items-center gap-6 top-20 left-1/2 -translate-x-1/2 py-4 px-4 rounded-2xl border-[1px] border-website-red-light w-md bg-website-light
