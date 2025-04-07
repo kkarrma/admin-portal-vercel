@@ -10,6 +10,7 @@ import "./styles/webpage.scss"
 import Input from "../components/Input";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { USER_ROLES } from "../variables/USER_ROLES";
 
 /**
  * @typedef {"SIGN_IN" | "SIGN_UP"} ModeType
@@ -19,20 +20,20 @@ import { useState } from "react";
  * @param {{ mode: ModeType }} props
  */
 
-export default function Login({ mode, accountStatus }) {
+export default function Login({ mode, accountStatus, accountType }) {
 
     const MOCK_ACCOUNTS = {
         "super_admin": {
             password: "password1234",
-            role: "super_admin"
+            role: USER_ROLES.SUPER_ADMIN
         },
         "marketing1": {
             password: "password1234",
-            role: "marketing_admin"
+            role: USER_ROLES.MARKETING_ADMIN
         },
         "merchant_account@gmail.com": {
             password: "password1234",
-            role: "merchant"
+            role: USER_ROLES.MERCHANT
         }
     }
 
@@ -49,6 +50,7 @@ export default function Login({ mode, accountStatus }) {
             if (!credentials) incorrectCredentials();
             else {
                 accountStatus.setter(true);
+                accountType.setter(MOCK_ACCOUNTS[email].role);
                 navigate("/");
             }
         } else if (mode === "SIGN_UP") {
