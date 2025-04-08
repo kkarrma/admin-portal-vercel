@@ -64,7 +64,7 @@ export default function Sidebar({ accountStatus, children, role = "Super Admin" 
             access: "ADMIN"
         },
     ]
-    const BLACKLIST_LINKS = ["/sign-in", "/sign-up/merchant", "/sign-in/merchant"]
+    const BLACKLIST_LINKS = ["/sign-in", "/sign-up"]
     const location = useLocation();
     const navigate = useNavigate();
     const [open, setOpen] = useState(true);
