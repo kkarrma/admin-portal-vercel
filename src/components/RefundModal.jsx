@@ -68,8 +68,9 @@ const RefundModal = ({
                 <ProofImages />
               </div>
               
-            
-              <StatusStepper statusItems={statusItems} />
+              <div className='my-auto'>
+                <StatusStepper statusItems={statusItems} />
+              </div>
             </div>
           </div>
         </div>

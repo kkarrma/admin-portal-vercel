@@ -17,6 +17,7 @@ const ReturnRefund = () => {
   const [isProductExpanded, setIsProductExpanded] = useState(true);
   const [itemsPerPage, setItemsPerPage] = useState(7);
   const [pageHeaderName, setPageHeaderName] = useState("Return & Refund Management");
+  const[role, setRole] = useState("merchant");
 
   // Define table columns configuration
   const tableColumns = [
@@ -242,6 +243,7 @@ const ReturnRefund = () => {
         setIsProductExpanded={setIsProductExpanded}
         updateStatus={updateStatus}
         statusItems={statusItems}
+        role
       />
     </div>
   );
