@@ -6,6 +6,7 @@ import { useState } from "react";
 import Refund from "./webpages/Refund";
 import RefundV2 from "./webpages/Refund-v2";
 import ReturnRefund from "./webpages/Return-refund";
+import ProductManagement from "./webpages/Product-management";
 
 function App() {
     const [accountStatus, setAccountStatus] = useState(false);
@@ -55,11 +56,15 @@ function App() {
                             />
                         }
                     />
-
+                    <Route
+                        path="/management/product"
+                        element={<ProductManagement />}
+                    />
                     <Route
                         path="/orders/return-and-refund"
                         element={<Refund />}
                     />
+
                     <Route path="/orders/return-v2" element={<RefundV2 />} />
                     <Route
                         path="/orders/return-refund"
