@@ -18,6 +18,8 @@ const ReturnRefund = () => {
   const [itemsPerPage, setItemsPerPage] = useState(7);
   const [pageHeaderName, setPageHeaderName] = useState("Return & Refund Management");
   const[role, setRole] = useState("merchant");
+  const [isAddVisible, setIsAddVisible] = useState(false);
+  const [addLabel, setAddLabel] = useState("Add New Return");
 
   // Define table columns configuration
   const tableColumns = [
@@ -202,6 +204,8 @@ const ReturnRefund = () => {
         setCurrentPage={setCurrentPage}
         filteredData={filteredData}
         pageHeaderName={pageHeaderName}
+        isAddVisible={isAddVisible}
+        addLabel={addLabel}
       />
 
       {/* Loading and Error States */}
