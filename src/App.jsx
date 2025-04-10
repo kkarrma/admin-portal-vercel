@@ -6,7 +6,6 @@ import { useState } from "react";
 import Refund from "./webpages/Refund";
 import RefundV2 from "./webpages/Refund-v2";
 import ReturnRefund from "./webpages/Return-refund";
-import ProductManagement from "./webpages/Product-management";
 
 function App() {
     const [accountStatus, setAccountStatus] = useState(false);
@@ -67,11 +66,6 @@ function App() {
                         element={<ReturnRefund />}
                     />
 
-                    <Route
-                        path="/management/product"
-                        element={<ProductManagement />}
-                    />
-
                     {/* Protected Routes */}
                     <Route
                         path="/"
@@ -87,6 +81,14 @@ function App() {
             </Sidebar>
         </BrowserRouter>
     );
+}
+
+function ProtectedRoute({ element, validator, userRole, allowedRoles }) {
+    if (!validator) return <Navigate to="/sign-in" replace />;
+    if (!allowedRoles.some((role) => role === userRole))
+        return <Navigate to="/403" replace />;
+
+    return element;
 }
 
 export default App;
