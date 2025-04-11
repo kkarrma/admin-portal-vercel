@@ -79,8 +79,8 @@ export default function Sidebar({ accountStatus, children, role = "Super Admin" 
                 {children}
             </>
             :
-            <div className="relative h-[100vh] bg-website-color">
-                <div className={`absolute z-10 bg-website-light h-[95.75%] top-[2.125%] left-5 shadow-sm flex flex-col pb-4 rounded-lg`}>
+            <div className="flex h-[100vh] bg-website-color justify-center items-center">
+                <div className={`transition-all duration-300 z-10 bg-website-light h-[95.75%] ml-5 shadow-sm flex flex-col pb-4 rounded-lg`}>
 
                     {/* Dashboard Header */}
                     <div className="flex flex-row items-center mx-8 gap-16 my-8">
@@ -115,7 +115,7 @@ export default function Sidebar({ accountStatus, children, role = "Super Admin" 
                     </div>
                     <IoPaw className={`absolute opacity-[.18] text-website-gray-400 -rotate-[23.21deg] w-8 h-auto bottom-5 right-5 z-10 ${open ? "" : "hidden"}`} />
                 </div>
-                <div className={`flex-1 duration-150 ease-in-out ${open ? "ms-80" : "ms-28"}`}>
+                <div className={`flex-1 h-[95.75%] duration-150 ease-in-out`}>
                     {children}
                 </div>
             </div>
