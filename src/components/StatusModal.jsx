@@ -31,7 +31,7 @@ const StatusModal = ({
 
   // Map status to corresponding cart icon
   const cartIcon = (status) => {
-    switch (status.toLowerCase()) {
+    switch (status?.toLowerCase()) {
       case "pending":
         return <BsCartFill className="text-2xl text-gray-600 mr-3" />;
       case "approved":
@@ -143,7 +143,7 @@ const StatusModal = ({
               {/* Dropdown Options */}
               {showDropdown && (
                 <div className="absolute top-full w-full bg-white shadow-md z-20 rounded-md mt-1 max-h-48 overflow-y-auto">
-                  {["Pending", "Completed", "Approved", "Cancelled"].map(
+                  {["Pending", "Confirmed", "Approved", "Cancelled"].map(
                     (status) => (
                       <div
                         key={status}

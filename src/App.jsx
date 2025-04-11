@@ -6,6 +6,7 @@ import { useState } from "react"
 import Refund from "./webpages/Refund"
 import RefundV2 from "./webpages/Refund-v2"
 import ReturnRefund from "./webpages/Return-refund"
+import Product from "./webpages/Product"
 
 function App() {
 
@@ -22,6 +23,8 @@ function App() {
           <Route path="/orders/return-and-refund" element={<Refund />} />
           <Route path="/orders/return-v2" element={<RefundV2 />} />
           <Route path="/orders/return-refund" element={<ReturnRefund />} />
+          <Route path="/orders/product" element={<Product />} />
+          
           
           {/* Protected Routes */}
           <Route path="/" element={
