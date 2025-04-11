@@ -194,7 +194,7 @@ const ReturnRefund = () => {
   };
 
   return (
-    <div className="container mx-12 px-6 py-8 bg-webpage-bg">
+    <div className="container px-6 h-full bg-webpage-bg flex flex-col">
       {/* Search and Sort Component */}
       <SearchSortContainer
         search={search}

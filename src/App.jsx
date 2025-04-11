@@ -7,6 +7,7 @@ import Refund from "./webpages/Refund"
 import RefundV2 from "./webpages/Refund-v2"
 import ReturnRefund from "./webpages/Return-refund"
 import { ALL_AUTHORIZED, USER_ROLES } from "./variables/USER_ROLES"
+import ProductManagement from "./webpages/Product-management"
 
 function App() {
   const [accountStatus, setAccountStatus] = useState(false);
@@ -42,6 +43,11 @@ function App() {
     {
       path: "/orders/return-refund",
       element: <ReturnRefund />,
+      roles: ALL_AUTHORIZED
+    },
+    {
+      path: "/management/product",
+      element: <ProductManagement />,
       roles: ALL_AUTHORIZED
     },
 
