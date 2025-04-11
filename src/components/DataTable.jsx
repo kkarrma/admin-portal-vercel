@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { RiExpandUpDownLine } from "react-icons/ri";
 import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
 import { BiSolidEdit } from "react-icons/bi";
+import "./index.scss";
 
 const DataTable = ({
   columns,
@@ -17,6 +18,27 @@ const DataTable = ({
     key: null,
     direction: "asc",
   });
+  
+  // Refs for synchronized scrolling
+  const headerRef = useRef(null);
+  const bodyRef = useRef(null);
+
+  // Set up synchronized scrolling between header and body
+  useEffect(() => {
+    const handleBodyScroll = () => {
+      if (headerRef.current && bodyRef.current) {
+        headerRef.current.scrollLeft = bodyRef.current.scrollLeft;
+      }
+    };
+
+    const bodyElement = bodyRef.current;
+    if (bodyElement) {
+      bodyElement.addEventListener('scroll', handleBodyScroll);
+      return () => {
+        bodyElement.removeEventListener('scroll', handleBodyScroll);
+      };
+    }
+  }, []);
 
   // Format date to Month DD, YYYY
   const formatDate = (dateString) => {
@@ -129,7 +151,7 @@ const DataTable = ({
           <div className="flex items-center justify-center">
             <button
               onClick={() => column.onClick(item)}
-              className="bg-unleash-blue hover:bg-blue-600 border text-white px-3 py-1 rounded-full text-xs font-medium transition-colors"
+              className="bg-unleash-blue-light hover:bg-blue-600 border text-white px-3 py-1 rounded-full text-xs font-medium transition-colors"
             >
               {column.buttonText || "Action"}
             </button>
@@ -148,20 +170,29 @@ const DataTable = ({
     }
   };
 
+  // Generate table columns with consistent widths
+  const columnWidths = columns.map((col, index) => {
+    return `minmax(${col.minWidth || '100px'}, ${col.width || '1fr'})`;
+  }).join(' ');
+
   return (
     <div className="mx-auto max-w-full">
       {/* Data Table */}
-      <div className="bg-[#F9F9F9] rounded-xl shadow-md overflow-x-auto">
-        {/* Table Header */}
-        <div className="">
-          <table className="w-full divide-y divide-gray-200 lg:table-fixed">
+      <div className="bg-[#F9F9F9] rounded-xl shadow-md">
+        {/* Header Table with horizontal scroll */}
+        <div 
+          ref={headerRef} 
+          className="overflow-x-hidden overflow-y-hidden"
+        >
+          <table className="min-w-full divide-y divide-gray-200" style={{tableLayout: "fixed"}}>
             <thead className="bg-gray-50">
               <tr>
                 {columns.map((column, index) => (
                   <th
                     key={index}
                     scope="col"
-                    className="px-4 py-3 text-center text-xs font-medium text-[#6D6D71] w-1/11 cursor-pointer"
+                    className="px-4 py-6 text-center text-xs font-medium text-[#6D6D71] cursor-pointer whitespace-nowrap"
+                    style={{minWidth: column.minWidth || '100px'}}
                     onClick={() => column.key && handleSort(column.key)}
                   >
                     <div className="inline-flex items-center">
@@ -177,14 +208,21 @@ const DataTable = ({
           </table>
         </div>
 
-        {/* Inner Container for Table Body */}
-        <div className="bg-white rounded-b-xl mx-3 max-h-[53dvh] overflow-y-auto">
-          <table className="w-full divide-y divide-gray-200 table-fixed">
+        {/* Body Table with synchronized scroll */}
+        <div 
+          ref={bodyRef}
+          className="bg-white overflow-x-auto overflow-y-auto max-h-[52dvh]"
+        >
+          <table className="min-w-full divide-y divide-gray-200" style={{tableLayout: "fixed"}}>
             <tbody className="divide-y divide-gray-100">
               {sortedData.map((item) => (
                 <tr key={item.id} className="hover:bg-gray-50">
                   {columns.map((column, index) => (
-                    <td key={index} className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900">
+                    <td 
+                      key={index} 
+                      className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900"
+                      style={{minWidth: column.minWidth || '100px'}}
+                    >
                       {renderCellContent(item, column)}
                     </td>
                   ))}
@@ -195,7 +233,7 @@ const DataTable = ({
         </div>
 
         {/* Pagination and Row Range Info */}
-        <div className="flex justify-between items-center mb-6 mt-6 mx-9">
+        <div className="flex justify-between items-center mb-6 mt-6 mx-9 pb-4">
           <div className="text-xs text-[#6D6D71] font-poppins font-medium flex items-center">
             <span>Showing</span>
             <select
@@ -235,10 +273,14 @@ const DataTable = ({
                 onClick={() =>
                   typeof pageNum === "number" ? setCurrentPage(pageNum) : null
                 }
-                className={`w-7 h-7 flex items-center justify-center mx-1 border rounded-full text-xs font-poppins font-medium border-[#EEEEEE] text-[#404B52] ${
-                  currentPage === pageNum
-                    ? "bg-unleash-blue text-white border-[#5932EA] border-2"
-                    : "bg-[#F5F5F5] text-gray-700"
+                className={`w-7 h-7 flex items-center justify-center mx-1 ${
+                  typeof pageNum !== "number"
+                    ? "border-none bg-transparent"
+                    : `border rounded-full text-xs font-poppins font-medium border-[#EEEEEE] text-[#404B52] ${
+                        currentPage === pageNum
+                          ? "bg-unleash-blue-light text-white border-[#5932EA] border-2"
+                          : "bg-[#F5F5F5] text-gray-700"
+                      }`
                 }`}
               >
                 {pageNum}
