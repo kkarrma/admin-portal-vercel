@@ -34,7 +34,7 @@ export default function Header({ title, profileData }) {
 
 
     return (
-        <div className="flex flex-row pt-2 justify-center">
+        <div className="flex flex-row justify-center pt-2 pb-4">
             <div className="flex flex-col flex-1">
                 <p className="font-montserrat text-black text-xl">{title}</p>
                 <div className="flex flex-row gap-2">
