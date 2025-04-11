@@ -3,15 +3,18 @@ import Login from "./webpages/Login"
 import Sidebar from "./components/Sidebar"
 import Dashboard from "./webpages/Dashboard"
 import { useState } from "react"
-import Refund from "./webpages/Refund"
-import RefundV2 from "./webpages/Refund-v2"
 import ReturnRefund from "./webpages/Return-refund"
 import { ALL_AUTHORIZED, USER_ROLES } from "./variables/USER_ROLES"
 import ProductManagement from "./webpages/Product-management"
+import default_user_icon from "./assets/default_user_icon.png";
 
 function App() {
   const [accountStatus, setAccountStatus] = useState(false);
   const [accountType, setAccountType] = useState(USER_ROLES.VISITOR);
+  const [profileData, setProfileData] = useState({
+    pfp: null,
+    username: ""
+  });
 
   const PUBLIC_ROUTES = [
     {
@@ -21,6 +24,7 @@ function App() {
           mode="SIGN_IN"
           accountStatus={{ value: accountStatus, setter: setAccountStatus }}
           accountType={{ value: accountType, setter: setAccountType }}
+          profileData={{ value: profileData, setter: setProfileData }}
         />
     },
     {
@@ -30,6 +34,7 @@ function App() {
           mode="SIGN_UP"
           accountStatus={{ value: accountStatus, setter: setAccountStatus }}
           accountType={{ value: accountType, setter: setAccountType }}
+          profileData={{ value: profileData, setter: setProfileData }}
         />
     }
   ]
@@ -76,9 +81,10 @@ function App() {
     }
   ]
 
+
   return (
     <BrowserRouter>
-      <Sidebar accountStatus={{ value: accountStatus, setter: setAccountStatus }}>
+      <Sidebar accountStatus={{ value: accountStatus, setter: setAccountStatus }} accountType={accountType} profileData={profileData}>
         <Routes>
           {PUBLIC_ROUTES.map(({ path, element }, index) => (
             <Route key={index} path={path} element={element} />

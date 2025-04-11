@@ -20,20 +20,32 @@ import { USER_ROLES } from "../variables/USER_ROLES";
  * @param {{ mode: ModeType }} props
  */
 
-export default function Login({ mode, accountStatus, accountType }) {
+export default function Login({ mode, accountStatus, accountType, profileData }) {
 
     const MOCK_ACCOUNTS = {
         "super_admin": {
             password: "password1234",
-            role: USER_ROLES.SUPER_ADMIN
+            role: USER_ROLES.SUPER_ADMIN,
+            profileData: {
+                pfp: null,
+                username: "Super Admin"
+            }
         },
         "marketing1": {
             password: "password1234",
-            role: USER_ROLES.MARKETING_ADMIN
+            role: USER_ROLES.MARKETING_ADMIN,
+            profileData: {
+                pfp: null,
+                username: "Marketing Admin"
+            }
         },
         "merchant_account@gmail.com": {
             password: "password1234",
-            role: USER_ROLES.MERCHANT
+            role: USER_ROLES.MERCHANT,
+            profileData: {
+                pfp: null,
+                username: "Merchant"
+            }
         }
     }
 
@@ -51,6 +63,7 @@ export default function Login({ mode, accountStatus, accountType }) {
             else {
                 accountStatus.setter(true);
                 accountType.setter(MOCK_ACCOUNTS[email].role);
+                profileData.setter(MOCK_ACCOUNTS[email].profileData);
                 navigate("/");
             }
         } else if (mode === "SIGN_UP") {
