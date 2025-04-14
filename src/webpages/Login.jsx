@@ -2,9 +2,9 @@ import blob_bg from "../assets/sign-in-page/blob.png";
 import upper_left_paw_path from "../assets/sign-in-page/upper-left-paw-path.png";
 import lower_right_paw_path from "../assets/sign-in-page/lower-right-paw-path.png";
 import unleash_banner from "../assets/unleash_banner.png";
-import animals_design from "../assets/sign-in-page/sign-in-page-animals.png"
-import bottom_animals from "../assets/sign-in-page/sign-up-merchant/bottom-animals.png"
-import bottom_blob from "../assets/sign-in-page/sign-up-merchant/bottom-blob.png"
+import animals_design from "../assets/sign-in-page/sign-in-page-animals.png";
+import bottom_animals from "../assets/sign-in-page/sign-up-merchant/bottom-animals.png";
+import bottom_blob from "../assets/sign-in-page/sign-up-merchant/bottom-blob.png";
 import { FaUserLarge, FaPhone, FaCircleCheck } from "react-icons/fa6";
 import { IoIosLock, IoIosCloseCircle } from "react-icons/io";
 import { MdFileUpload, MdDescription } from "react-icons/md";
@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import OTPBar from "../components/OTPBar";
 import { USER_ROLES } from "../variables/USER_ROLES";
+import { EMAILS } from "../data/email";
 
 /**
  * @typedef {"SIGN_IN" | "SIGN_UP"} ModeType
@@ -25,33 +26,6 @@ import { USER_ROLES } from "../variables/USER_ROLES";
  */
 
 export default function Login({ mode, accountStatus, accountType, profileData }) {
-
-    const MOCK_ACCOUNTS = {
-        "super_admin": {
-            password: "password1234",
-            role: USER_ROLES.SUPER_ADMIN,
-            profileData: {
-                pfp: null,
-                username: "Super Admin"
-            }
-        },
-        "marketing1": {
-            password: "password1234",
-            role: USER_ROLES.MARKETING_ADMIN,
-            profileData: {
-                pfp: null,
-                username: "Marketing Admin"
-            }
-        },
-        "merchant_account@gmail.com": {
-            password: "password1234",
-            role: USER_ROLES.MERCHANT,
-            profileData: {
-                pfp: null,
-                username: "Merchant"
-            }
-        }
-    }
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -91,8 +65,8 @@ export default function Login({ mode, accountStatus, accountType, profileData })
         if (mode === "SIGN_IN") {
             if (incorrectCredentials()) return;
             accountStatus.setter(true);
-            accountType.setter(MOCK_ACCOUNTS[email].role);
-            profileData.setter(MOCK_ACCOUNTS[email].profileData);
+            accountType.setter(EMAILS[email].role);
+            profileData.setter(EMAILS[email].profileData);
             navigate("/");
         } else if (mode === "SIGN_UP") {
             switch (signUpPage) {
@@ -172,9 +146,9 @@ export default function Login({ mode, accountStatus, accountType, profileData })
             setSignInError({ title: "Input credentials!", subtitle: "Please input your email." });
         } else if (password === "") {
             setSignInError({ title: "Input credentials!", subtitle: "Please input your password." });
-        } else if (!MOCK_ACCOUNTS[email]) {
+        } else if (!EMAILS[email]) {
             setSignInError({ title: "Incorrect Email!", subtitle: "Email not registered in the system." });
-        } else if (password !== MOCK_ACCOUNTS[email]?.password) {
+        } else if (password !== EMAILS[email]?.password) {
             setSignInError({ title: "Incorrect Password!", subtitle: "Please make sure the password is correct." });
         } else {
             return false;
@@ -233,7 +207,7 @@ export default function Login({ mode, accountStatus, accountType, profileData })
     };
 
     const forgotPassword = () => {
-        if (email) navigate("/account/forgot-password", { state: { email: email } })
+        navigate("/account/forgot-password");
     }
 
     return (
