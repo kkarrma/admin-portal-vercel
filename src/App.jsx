@@ -9,6 +9,7 @@ import ProductManagement from "./webpages/Product-management"
 import UserManagement from "./webpages/User-management"
 import default_user_icon from "./assets/default_user_icon.png";
 import Product from "./webpages/Product"
+import PetManagement from "./webpages/Pet-Management"
 
 function App() {
   const [accountStatus, setAccountStatus] = useState(false);
@@ -61,8 +62,14 @@ function App() {
         path: "/management/user",
         element: <UserManagement />,
         roles: ALL_AUTHORIZED
+    },
+    {
+        path: "/management/pet-breed",
+        element: <PetManagement />,
+        roles: ALL_AUTHORIZED
     }
     /*
+    /management/pet-breed
     ADD YOUR PATHS AND ELEMENTS HERE.
     FOR THE ROLES, PUT ALL_AUTHORIZED FOR NOW.
     */

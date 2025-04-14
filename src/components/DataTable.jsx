@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { RiExpandUpDownLine } from "react-icons/ri";
-import { FaCircleCheck, FaCircleXmark } from "react-icons/fa6";
+import { FaCircleCheck, FaCircleXmark, FaEye, FaSort, FaSortUp, FaSortDown } from "react-icons/fa6";
 import { BiSolidEdit } from "react-icons/bi";
 import "./index.scss";
 
@@ -13,6 +13,11 @@ const DataTable = ({
   itemsPerPage,
   setItemsPerPage,
   getStatusClass,
+  loading = false,
+  selectedRows = [],
+  setSelectedRows = () => {},
+  allowSelection = false,
+  onRowClick = null,
 }) => {
   const [sortConfig, setSortConfig] = useState({
     key: null,
@@ -74,6 +79,16 @@ const DataTable = ({
     setSortConfig({ key, direction });
   };
 
+  // Get sort icon based on current sort state
+  const getSortIcon = (columnKey) => {
+    if (sortConfig.key !== columnKey) {
+      return <FaSort className="ml-1 text-gray-400 text-xs" />;
+    }
+    return sortConfig.direction === 'asc' 
+      ? <FaSortUp className="ml-1 text-blue-600 text-xs" /> 
+      : <FaSortDown className="ml-1 text-blue-600 text-xs" />;
+  };
+
   // Get pagination numbers dynamically
   const getPageNumbers = () => {
     const totalPages = Math.ceil(filteredData.length / itemsPerPage);
@@ -113,6 +128,24 @@ const DataTable = ({
     }
   };
 
+  // Toggle row selection
+  const toggleRowSelection = (id) => {
+    if (selectedRows.includes(id)) {
+      setSelectedRows(selectedRows.filter(rowId => rowId !== id));
+    } else {
+      setSelectedRows([...selectedRows, id]);
+    }
+  };
+
+  // Select/deselect all rows
+  const toggleSelectAll = () => {
+    if (selectedRows.length === sortedData.length) {
+      setSelectedRows([]);
+    } else {
+      setSelectedRows(sortedData.map(item => item.id));
+    }
+  };
+
   // Render cell content based on column type
   const renderCellContent = (item, column) => {
     switch (column.type) {
@@ -122,7 +155,7 @@ const DataTable = ({
             <img
               src={item[column.key] || "https://via.placeholder.com/40"}
               alt={item.Shop_Name || "Shop"}
-              className="h-8 w-8 rounded-full"
+              className="h-8 w-8 rounded-full object-cover border border-gray-200"
             />
           </div>
         );
@@ -207,6 +240,16 @@ const DataTable = ({
           <table className="min-w-full divide-y divide-gray-200" style={{tableLayout: "fixed"}}>
             <thead className="bg-gray-50">
               <tr>
+                {allowSelection && (
+                  <th scope="col" className="px-2 py-3 text-center w-10">
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.length === sortedData.length && sortedData.length > 0}
+                      onChange={toggleSelectAll}
+                      className="form-checkbox h-4 w-4 text-unleash-blue rounded focus:ring-unleash-blue"
+                    />
+                  </th>
+                )}
                 {columns.map((column, index) => (
                   <th
                     key={index}
@@ -215,11 +258,9 @@ const DataTable = ({
                     style={{minWidth: column.minWidth || '100px'}}
                     onClick={() => column.key && handleSort(column.key)}
                   >
-                    <div className="inline-flex items-center">
+                    <div className="inline-flex items-center justify-center">
                       {column.label}
-                      {column.key && (
-                        <RiExpandUpDownLine className="ml-1 text-[#6D6D71] text-xs align-middle" />
-                      )}
+                      {column.key && getSortIcon(column.key)}
                     </div>
                   </th>
                 ))}
@@ -252,6 +293,13 @@ const DataTable = ({
           </table>
         </div>
 
+        {/* Scroll indicator */}
+        {isScrollable && (
+          <div className="absolute bottom-16 right-4 bg-gray-800 text-white rounded-full p-1 opacity-50 text-xs">
+            Scroll for more
+          </div>
+        )}
+
         {/* Pagination and Row Range Info */}
         <div className="flex justify-between items-center mb-6 mt-6 mx-9 pb-4">
           <div className="text-xs text-[#6D6D71] font-poppins font-medium flex items-center">
@@ -264,7 +312,7 @@ const DataTable = ({
               }}
               className="mx-2 px-1 py-1 bg-[#E4EBF3] text-[#222A50] rounded-full focus:outline-none focus:ring-2 focus:ring-unleash-blue"
             >
-              {[7, 10, 15, 20].map((size) => (
+              {[7, 10, 15, 20, 50].map((size) => (
                 <option key={size} value={size}>
                   {size}
                 </option>
@@ -332,6 +380,9 @@ const DataTable = ({
           </div>
         </div>
       </div>
+      
+      {/* Tooltips */}
+      <Tooltip id="action-tooltip" />
     </div>
   );
 };
