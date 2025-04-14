@@ -66,7 +66,7 @@ export default function Sidebar({ accountStatus, accountType, profileData, child
             access: "ADMIN"
         },
     ]
-    const BLACKLIST_LINKS = ["/sign-in", "/sign-up"]
+    const BLACKLIST_LINKS = ["/sign-in", "/sign-up", "/404", "/403"]
     const location = useLocation();
     const navigate = useNavigate();
     const [open, setOpen] = useState(true);
