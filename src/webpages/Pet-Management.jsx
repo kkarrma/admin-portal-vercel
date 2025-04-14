@@ -277,7 +277,7 @@ const PetManagement = () => {
   };
 
   return (
-    <div className="container mx-12 px-6 py-8 bg-webpage-bg">
+    <div className="container px-6 bg-webpage-bg">
       {/* Search and Sort Component */}
       <SearchSortContainer
         search={search}

@@ -6,10 +6,12 @@ import { useState } from "react"
 import ReturnRefund from "./webpages/Return-refund"
 import { ALL_AUTHORIZED, USER_ROLES } from "./variables/USER_ROLES"
 import ProductManagement from "./webpages/Product-management"
-import UserManagement from "./webpages/User-management"
 import default_user_icon from "./assets/default_user_icon.png";
+import UserManagement from "./webpages/User-management"
 import Product from "./webpages/Product"
 import PetManagement from "./webpages/Pet-Management"
+import Forbidden from "./webpages/errors/403"
+import NotFound from "./webpages/errors/404"
 
 function App() {
   const [accountStatus, setAccountStatus] = useState(false);
@@ -49,8 +51,18 @@ function App() {
       roles: ALL_AUTHORIZED
     },
     {
+      path: "/orders/product",
+      element: <Product />,
+      roles: ALL_AUTHORIZED
+    },
+    {
       path: "/orders/return-refund",
       element: <ReturnRefund />,
+      roles: ALL_AUTHORIZED
+    },
+    {
+      path: "/orders/cancellation-and-refund",
+      element: <Navigate to="/404" replace />, // CANCELLATION AND REFUND
       roles: ALL_AUTHORIZED
     },
     {
@@ -59,26 +71,26 @@ function App() {
       roles: ALL_AUTHORIZED
     },
     {
-        path: "/management/user",
-        element: <UserManagement />,
-        roles: ALL_AUTHORIZED
+      path: "/management/article",
+      element: <Navigate to="/404" replace />, // ARTICLE MANAGEMENT
+      roles: ALL_AUTHORIZED
     },
     {
-        path: "/management/pet-breed",
-        element: <PetManagement />,
-        roles: ALL_AUTHORIZED
-    }
-    /*
-    /management/pet-breed
-    ADD YOUR PATHS AND ELEMENTS HERE.
-    FOR THE ROLES, PUT ALL_AUTHORIZED FOR NOW.
-    */
+      path: "/management/user",
+      element: <UserManagement />,
+      roles: ALL_AUTHORIZED
+    },
+    {
+      path: "/management/pet-breed",
+      element: <PetManagement />,
+      roles: ALL_AUTHORIZED
+    },
   ]
 
   const ERROR_ROUTES = [
     {
       path: "/403",
-      element: <Dashboard />,
+      element: <Forbidden />,
       metadata: {
         error_name: "403 - FORBIDDEN",
         reason: "Authorized but lacks permission to access the page."
@@ -86,7 +98,7 @@ function App() {
     },
     {
       path: "/404",
-      element: <Dashboard />,
+      element: <NotFound />,
       metadata: {
         error_name: "404 - NOT FOUND",
         reason: "Webpage does not exist."

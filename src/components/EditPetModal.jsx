@@ -66,7 +66,7 @@ const EditPetModal = ({
             <FaTrash size={14} />
             Delete
           </button>
-          
+
           <div className="flex space-x-2">
             <button
               onClick={() => setShowModal(false)}
