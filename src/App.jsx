@@ -8,6 +8,7 @@ import { ALL_AUTHORIZED, USER_ROLES } from "./variables/USER_ROLES"
 import ProductManagement from "./webpages/Product-management"
 import UserManagement from "./webpages/User-management"
 import default_user_icon from "./assets/default_user_icon.png";
+import Product from "./webpages/Product"
 
 function App() {
   const [accountStatus, setAccountStatus] = useState(false);
