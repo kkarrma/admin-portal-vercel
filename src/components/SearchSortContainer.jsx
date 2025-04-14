@@ -7,7 +7,9 @@ const SearchSortContainer = ({
   handleSortChange, 
   setCurrentPage, 
   filteredData, 
-  pageHeaderName 
+  pageHeaderName,
+  isAddVisible,
+  addLabel
 }) => {
   return (
     <div className="max-w-full px-4 py-4 bg-white rounded-lg shadow mb-4">
@@ -65,12 +67,23 @@ const SearchSortContainer = ({
               type="checkbox" 
               value="" 
               className="sr-only peer" 
-              checked
+              // checked
               readOnly
             />
             <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-unleash-blue"></div>
           </label>
         </div>
+          
+          {/* Add Button - Now more visually appealing */}
+          {isAddVisible && (
+            <button
+              type="button"
+              className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-unleash-blue hover:bg-unleash-blue-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-unleash-blue"
+            >
+              {addLabel}
+            </button>
+          )}
+          
       </div>
     </div>
   );

@@ -23,38 +23,38 @@ const ProductInfo = ({ isProductExpanded, setIsProductExpanded }) => (
     <div className="py-2 my-2">
       <div className="flex items-center">
         <div className="w-10 h-10 bg-white rounded flex items-center justify-center mr-2">
-          <img src={product} alt="Product" className="w-8 h-8" />
+          <img src={product} alt="Product" className="w-10 h-11" />
         </div>
         <div className="flex-1">
-          <p className="text-sm font-medium">Pedigree Beef</p>
-          <div className="flex justify-between text-xs">
-            <span>Qty: 1</span>
-            <span>₱ 150</span>
+          <p className="text-sm font-medium font-montserrat text-start">Pedigree Beef</p>
+          <div className="flex justify-start text-xs gap-2 text-gray-500">
+            <span className='bg-gray-200 rounded-md p-1'>Qty: 1</span>
+            <span className='bg-gray-200 rounded-md p-1'>₱ 150</span>
           </div>
         </div>
       </div>
     </div>
 
     {isProductExpanded && (
-      <div className="pb-2">
+      <div className="pb-1 border-b border-gray-300">
         <div className="flex items-center">
           <div className="w-10 h-10 bg-white rounded flex items-center justify-center mr-2">
-            <img src={product} alt="Product" className="w-8 h-8" />
+            <img src={product} alt="Product" className="w-10 h-11" />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-medium">Pedigree Beef</p>
-            <div className="flex justify-between text-xs">
-              <span>Qty: 1</span>
-              <span>₱ 150</span>
+            <p className="text-sm font-medium font-montserrat text-start">Pedigree Beef</p>
+            <div className="flex justify-start text-xs gap-2 text-gray-500">
+            <span className='bg-gray-200 rounded-md p-1'>Qty: 1</span>
+            <span className='bg-gray-200 rounded-md p-1'>₱ 150</span>
             </div>
           </div>
         </div>
       </div>
     )}
 
-    <div className="flex justify-between font-medium mt-2">
-      <span>Total</span>
-      <span>₱ 300</span>
+    <div className="flex justify-start pt-2">
+      <span className='text-sm font-poppins text-gray-500 pt-1'>Total</span>
+      <span className='text-md font-montserrat text-black font-semibold mx-auto'>₱ 300</span>
     </div>
   </div>
 );
