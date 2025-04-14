@@ -56,7 +56,6 @@ function App() {
       element: <ProductManagement />,
       roles: ALL_AUTHORIZED
     },
-
     {
         path: "/management/user",
         element: <UserManagement />,
