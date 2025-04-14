@@ -1,0 +1,56 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[submodule]
+	active = .
+[remote "origin"]
+	url = https://github.com/Unleash-Web-Developer-Interns/unleash-admin-portal.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+[lfs]
+	repositoryformatversion = 0
+[branch "Dashboard"]
+	vscode-merge-base = origin/main
+	remote = origin
+	merge = refs/heads/Dashboard
+[branch "sign-in-page"]
+	vscode-merge-base = origin/Dashboard
+	remote = origin
+	merge = refs/heads/sign-in-page
+[branch "sidebar"]
+	vscode-merge-base = origin/sign-in-page
+	remote = origin
+	merge = refs/heads/sidebar
+[branch "refund-and-return"]
+	remote = origin
+	merge = refs/heads/refund-and-return
+	vscode-merge-base = origin/refund-and-return
+[branch "Order_Product"]
+	remote = origin
+	merge = refs/heads/Order_Product
+	vscode-merge-base = origin/Order_Product
+[branch "user-management-2"]
+	remote = origin
+	merge = refs/heads/user-management-2
+	vscode-merge-base = origin/user-management-2
+[branch "product-management"]
+	remote = origin
+	merge = refs/heads/product-management
+	vscode-merge-base = origin/product-management
+[branch "product-order"]
+	remote = origin
+	merge = refs/heads/product-order
+	vscode-merge-base = origin/product-order
+[branch "pet-management"]
+	remote = origin
+	merge = refs/heads/pet-management
+	vscode-merge-base = origin/pet-management
+[remote "bitbucket"]
+	url = https://internsupport@bitbucket.org/hs-developers-2020/unleash-portal.git
+	fetch = +refs/heads/*:refs/remotes/bitbucket/*
