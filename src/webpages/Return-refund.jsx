@@ -17,6 +17,9 @@ const ReturnRefund = () => {
   const [isProductExpanded, setIsProductExpanded] = useState(true);
   const [itemsPerPage, setItemsPerPage] = useState(7);
   const [pageHeaderName, setPageHeaderName] = useState("Return & Refund Management");
+  const[role, setRole] = useState("merchant");
+  const [isAddVisible, setIsAddVisible] = useState(false);
+  const [addLabel, setAddLabel] = useState("Add New Return");
 
   // Define table columns configuration
   const tableColumns = [
@@ -30,7 +33,7 @@ const ReturnRefund = () => {
     { label: "Quantity", key: "Quantity", type: "number" },
     { label: "Status", key: "Status", type: "status" },
     { label: "Details", key: null, type: "button", buttonText: "View", onClick: openDetailsModal },
-    { label: "Actions", key: null, type: "action", onClick: openStatusModal }
+    { label: "Actions", key: null, type: "action", onClick: openStatusModal },
   ];
 
   // Fetch data from the API
@@ -191,7 +194,7 @@ const ReturnRefund = () => {
   };
 
   return (
-    <div className="container px-6 h-full bg-webpage-bg flex flex-col">
+    <div className="container bg-webpage-bg flex flex-col">
       {/* Search and Sort Component */}
       <SearchSortContainer
         search={search}
@@ -201,6 +204,8 @@ const ReturnRefund = () => {
         setCurrentPage={setCurrentPage}
         filteredData={filteredData}
         pageHeaderName={pageHeaderName}
+        isAddVisible={isAddVisible}
+        addLabel={addLabel}
       />
 
       {/* Loading and Error States */}
@@ -242,6 +247,7 @@ const ReturnRefund = () => {
         setIsProductExpanded={setIsProductExpanded}
         updateStatus={updateStatus}
         statusItems={statusItems}
+        role
       />
     </div>
   );

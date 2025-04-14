@@ -201,7 +201,7 @@ const ProductManagement = () => {
     };
 
     return (
-        <div className="container px-6 bg-webpage-bg">
+        <div className="container bg-webpage-bg">
             {/* Search and Sort Component */}
             <SearchSortContainer
                 search={search}
