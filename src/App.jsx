@@ -12,6 +12,7 @@ import Product from "./webpages/Product"
 import PetManagement from "./webpages/Pet-Management"
 import Forbidden from "./webpages/errors/403"
 import NotFound from "./webpages/errors/404"
+import ForgotPassword from "./webpages/ForgotPassword"
 
 function App() {
   const [accountStatus, setAccountStatus] = useState(false);
@@ -41,6 +42,10 @@ function App() {
           accountType={{ value: accountType, setter: setAccountType }}
           profileData={{ value: profileData, setter: setProfileData }}
         />
+    },
+    {
+      path: "/account/forgot-password",
+      element: <ForgotPassword />
     }
   ]
 

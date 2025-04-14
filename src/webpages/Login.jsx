@@ -3,13 +3,16 @@ import upper_left_paw_path from "../assets/sign-in-page/upper-left-paw-path.png"
 import lower_right_paw_path from "../assets/sign-in-page/lower-right-paw-path.png";
 import unleash_banner from "../assets/unleash_banner.png";
 import animals_design from "../assets/sign-in-page/sign-in-page-animals.png"
-import { FaUserLarge } from "react-icons/fa6";
+import bottom_animals from "../assets/sign-in-page/sign-up-merchant/bottom-animals.png"
+import bottom_blob from "../assets/sign-in-page/sign-up-merchant/bottom-blob.png"
+import { FaUserLarge, FaPhone, FaCircleCheck } from "react-icons/fa6";
 import { IoIosLock, IoIosCloseCircle } from "react-icons/io";
-import { IoCloseOutline } from "react-icons/io5";
+import { MdFileUpload, MdDescription } from "react-icons/md";
+import { IoStorefrontSharp, IoCloseOutline } from "react-icons/io5";
 import "./styles/webpage.scss"
 import Input from "../components/Input";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import OTPBar from "../components/OTPBar";
 import { USER_ROLES } from "../variables/USER_ROLES";
 
@@ -63,7 +66,12 @@ export default function Login({ mode, accountStatus, accountType, profileData })
     const [signUpPage, setSignUpPage] = useState(1);
     const [OTP, setOTP] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [confirmOTP, setConfirmOTP] = useState("");
+    const [shopName, setShopName] = useState("");
+    const [shopDescription, setShopDescription] = useState("");
+    const [shopPhoneNumber, setShopPhoneNumber] = useState("");
+    const [successSignUp, setSuccessSignUp] = useState(false);
+    const fileInputRef = useRef(null);
+    const [imagePreview, setImagePreview] = useState(null);
 
     // Reset state when route changes
     useEffect(() => {
@@ -74,19 +82,18 @@ export default function Login({ mode, accountStatus, accountType, profileData })
         setConfirmPassword("");
         setSignUpPage(1);
         setOTP("");
-        setConfirmOTP("");
+        setShopName("");
+        setShopDescription("");
+        setShopPhoneNumber("");
     }, [location.pathname]); // Runs whenever the URL changes
 
     const primaryButtonTrigger = () => {
         if (mode === "SIGN_IN") {
-            var credentials = password === MOCK_ACCOUNTS[email]?.password;
-            if (!credentials) incorrectCredentials();
-            else {
-                accountStatus.setter(true);
-                accountType.setter(MOCK_ACCOUNTS[email].role);
-                profileData.setter(MOCK_ACCOUNTS[email].profileData);
-                navigate("/");
-            }
+            if (incorrectCredentials()) return;
+            accountStatus.setter(true);
+            accountType.setter(MOCK_ACCOUNTS[email].role);
+            profileData.setter(MOCK_ACCOUNTS[email].profileData);
+            navigate("/");
         } else if (mode === "SIGN_UP") {
             switch (signUpPage) {
                 case 1:
@@ -94,15 +101,7 @@ export default function Login({ mode, accountStatus, accountType, profileData })
                      * temporarily store credentials.
                      * send OTP to email.
                      */
-                    if (checkSignUpCredentials()) setSignUpPage(2);
-                    else {
-                        // show error
-                        setSignInErrorStatus(true);
-                        setTimeout(() => {
-                            setSignInErrorStatus(false);
-                        }, 2500);
-                    }
-                    sendOTP();
+                    checkSignUpCredentials();
                     break;
                 case 2:
                     confirmOTPFunction();
@@ -112,7 +111,7 @@ export default function Login({ mode, accountStatus, accountType, profileData })
                      * store profile details.
                      * show popup of successful account creation.
                      */
-
+                    confirmStoreData();
                     break;
                 default:
                     /**
@@ -146,6 +145,27 @@ export default function Login({ mode, accountStatus, accountType, profileData })
         }
     }
 
+    const confirmStoreData = () => {
+        if (shopName === "") {
+            setSignInError({ title: "Input information!", subtitle: "Please input shop name." });
+        } else if (shopDescription === "") {
+            setSignInError({ title: "Input information!", subtitle: "Please input shop description." });
+        } else if (shopPhoneNumber === "") {
+            setSignInError({ title: "Input information!", subtitle: "Please input shop contact number." });
+        } else if (shopPhoneNumber.trim() && !/^\+?\d{1,4}[-.\s]?\(?\d{1,4}\)?[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(shopPhoneNumber)) {
+            setSignInError({ title: "Invalid information!", subtitle: "Please input valid shop contact number." });
+        } else {
+            successfulSignUpPopUp();
+            return;
+        }
+
+        // show error
+        setSignInErrorStatus(true);
+        setTimeout(() => {
+            setSignInErrorStatus(false);
+        }, 2500);
+    }
+
     const incorrectCredentials = () => {
         // set error message
         if (email === "") {
@@ -156,12 +176,30 @@ export default function Login({ mode, accountStatus, accountType, profileData })
             setSignInError({ title: "Incorrect Email!", subtitle: "Email not registered in the system." });
         } else if (password !== MOCK_ACCOUNTS[email]?.password) {
             setSignInError({ title: "Incorrect Password!", subtitle: "Please make sure the password is correct." });
+        } else {
+            return false;
         }
 
         // show error
         setSignInErrorStatus(true);
         setTimeout(() => {
             setSignInErrorStatus(false);
+        }, 2500);
+        return true;
+    }
+
+    const successfulSignUpPopUp = () => {
+        setSuccessSignUp(true);
+        setTimeout(() => {
+            setSuccessSignUp(false);
+
+            accountStatus.setter(true);
+            accountType.setter(USER_ROLES.MERCHANT);
+            profileData.setter({
+                pfp: imagePreview,
+                username: shopName
+            });
+            navigate("/");
         }, 2500);
     }
 
@@ -170,8 +208,32 @@ export default function Login({ mode, accountStatus, accountType, profileData })
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) setSignInError({ title: "Invalid Email!", subtitle: "Please input valid email address." });
         else if (password === "") setSignInError({ title: "Input credentials!", subtitle: "Please input your password." });
         else if (password !== confirmPassword) setSignInError({ title: "Passwords do not match!", subtitle: "Please make sure that confirm password matches the password." });
-        else return true;
-        return false;
+        else {
+            sendOTP();
+            setSignUpPage(2);
+            return;
+        }
+        // show error
+        setSignInErrorStatus(true);
+        setTimeout(() => {
+            setSignInErrorStatus(false);
+        }, 2500);
+    }
+
+    const handleImageClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImagePreview(URL.createObjectURL(file));
+            // TODO: Save or upload image here
+        }
+    };
+
+    const forgotPassword = () => {
+        if (email) navigate("/account/forgot-password", { state: { email: email } })
     }
 
     return (
@@ -185,15 +247,66 @@ export default function Login({ mode, accountStatus, accountType, profileData })
             </div>
 
             {signUpPage === 3 ?
-                <div className="absolute top-7/12 left-1/2 -translate-1/2 w-[600px] rounded-2xl flex flex-col gap-4 justify-center bg-white">
-                    <div className="relative bg-unleash-blue h-16 items-center justify-center">
-                        <p className="absolute w-full top-0 text-center font-montserrat font-semibold text-white text-lg">Shop Profile</p>
-                        <IoCloseOutline className="absolute right-0 top-0 text-2xl text-white" />
+                <>
+                    <div className="absolute top-1/2 left-1/2 -translate-1/2 w-xl shadow-md rounded-2xl flex flex-col justify-center overflow-hidden">
+                        <div className="relative bg-unleash-blue-light h-14 flex items-center justify-center">
+                            <p className="font-montserrat font-semibold text-white text-lg">Shop Profile</p>
+                            <IoCloseOutline className="absolute right-4 top-1/2 -translate-y-1/2 text-2xl text-white cursor-pointer" />
+                        </div>
+                        <div className="w-full flex flex-col px-14 py-9 bg-white gap-6">
+                            {/* SHOP LOGO */}
+                            <div
+                                className="flex flex-col mx-auto select-none cursor-pointer justify-center items-center gap-3"
+                                onClick={handleImageClick}
+                            >
+                                <div className="flex w-28 h-28 bg-website-gray-200 border-2 border-gray-300 rounded-full justify-center items-center overflow-hidden">
+                                    {imagePreview ? (
+                                        <img
+                                            src={imagePreview}
+                                            alt="Logo Preview"
+                                            className="object-cover w-full h-full"
+                                        />
+                                    ) : (
+                                        <MdFileUpload className="w-6 h-6 text-gray-400" />
+                                    )}
+                                </div>
+                                <p className="font-montserrat font-medium text-base text-website-gray">
+                                    Shop Logo
+                                </p>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    ref={fileInputRef}
+                                    onChange={handleFileChange}
+                                    className="hidden"
+                                />
+                            </div>
+                            <Input type="text" label="Shop Name" id="shop-name" LeftIcon={<IoStorefrontSharp />} className="outline-website-gray-300" input={shopName} setInput={setShopName} />
+                            <Input type="textbox" label="Shop Description" id="shop-description" LeftIcon={<MdDescription />} className="outline-website-gray-300" classNameInput="h-20" input={shopDescription} setInput={setShopDescription} />
+                            <Input type="tel" label="Phone Number" id="phone-number" LeftIcon={<FaPhone />} className="outline-website-gray-300" input={shopPhoneNumber} setInput={setShopPhoneNumber} />
+                            <div className="rounded-sm bg-unleash-blue-light text-sm text-white font-medium font-montserrat w-full py-4 flex justify-center items-center select-none cursor-pointer hover:brightness-95"
+                                onClick={(e) => primaryButtonTrigger()}>Continue</div>
+                        </div>
                     </div>
-                    <div className="w-full h-[600px]">
+                    <div className={`relative inset-0 h-screen w-screen ${successSignUp ? "" : "hidden"}`}>
+                        <div className={`absolute z-10 top-1/2 left-1/2 bg-white -translate-1/2 pt-10 w-96 rounded-2xl flex flex-col gap-4 justify-center overflow-hidden ${successSignUp ? "animate-float-in-out" : "hidden"}`}>
+                            <p className="font-montserrat text-3xl font-semibold text-black w-full text-center">You are all set!</p>
+                            <p className="font-montserrat text-sm font-medium text-website-green w-full text-center">Start selling now!</p>
+                            {/* Circle Check Icon with background effects */}
+                            <div className="relative w-20 h-20 mx-auto flex justify-center items-center">
+                                <FaCircleCheck className="z-50 w-12 h-12 text-website-green absolute" />
+                                <div className="absolute z-40 w-16 h-16 rounded-full bg-website-green opacity-20" />
+                                <div className="absolute z-30 w-20 h-20 rounded-full bg-website-green opacity-10" />
+                            </div>
 
+                            <div className={`relative h-40 w-full flex justify-center items-center`}>
+                                <img src={bottom_blob} className="absolute w-full bottom-0" />
+                                <img src={bottom_animals} className="absolute h-32" />
+                            </div>
+                        </div>
+                        <div className="h-screen w-screen bg-black opacity-20" />
                     </div>
-                </div>
+                </>
                 :
                 <div className="absolute top-7/12 left-1/2 -translate-1/2 w-md py-9 px-14 rounded-2xl flex flex-col gap-4 justify-center bg-white">
                     <img
@@ -249,7 +362,6 @@ export default function Login({ mode, accountStatus, accountType, profileData })
                         </>
                         :
                         <OTPBar onComplete={(otp) => {
-                            setConfirmOTP(otp);
                             confirmOTPFunction(otp);
                         }} />
                     }
@@ -260,7 +372,8 @@ export default function Login({ mode, accountStatus, accountType, profileData })
                     </div>
 
                     {/* Secondary Button */}
-                    {mode === "SIGN_IN" && <div className={`w-full cursor-pointer hover:brightness-90 font-montserrat font-medium text-unleash-blue rounded-sm flex justify-center items-center text-sm`}>
+                    {mode === "SIGN_IN" && <div className={`w-full cursor-pointer hover:brightness-90 font-montserrat font-medium text-unleash-blue rounded-sm flex justify-center items-center text-sm`}
+                        onClick={(e) => forgotPassword()}>
                         Forgot Password
                     </div>}
                     {mode === "SIGN_UP" && signUpPage === 2 && <div className={`w-full font-montserrat font-medium text-website-gray rounded-sm flex justify-center items-center text-sm`}>
