@@ -81,8 +81,8 @@ export default function Sidebar({ accountStatus, accountType, profileData, child
                 {children}
             </>
             :
-            <div className="flex h-[100vh] bg-website-color justify-center items-center">
-                <div className={`transition-all duration-300 z-10 bg-website-light h-[95.75%] ml-5 shadow-sm flex flex-col pb-4 rounded-lg`}>
+            <div className="relative h-[100vh] bg-website-color">
+                <div className={`absolute z-10 bg-website-light h-[95.75%] top-[2.125%] left-5 shadow-sm flex flex-col pb-4 rounded-lg`}>
 
                     {/* Dashboard Header */}
                     <div className="flex flex-row items-center mx-8 gap-16 my-8">
