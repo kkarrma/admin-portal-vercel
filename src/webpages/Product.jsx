@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import SearchSortContainer from "../components/SearchSortContainer";
 import DataTable from "../components/DataTable";
-import RefundModal from "../components/RefundModal";
+import ProductModal from "../components/ProductModal";
+import StatusModal from "../components/StatusModal";
 
-const ReturnRefund = () => {
+const Product = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,24 +17,25 @@ const ReturnRefund = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isProductExpanded, setIsProductExpanded] = useState(true);
   const [itemsPerPage, setItemsPerPage] = useState(7);
-  const [pageHeaderName, setPageHeaderName] = useState("Return & Refund Management");
-  const[role, setRole] = useState("merchant");
-  const [isAddVisible, setIsAddVisible] = useState(false);
-  const [addLabel, setAddLabel] = useState("Add New Return");
+  const [pageHeaderName, setPageHeaderName] = useState("Order Management");
 
   // Define table columns configuration
   const tableColumns = [
-    { label: "Profile", key: "Shop_Profile", type: "image" },
+    { label: "Shop Profile", key: "Shop_Profile", type: "image" },
     { label: "Transaction ID", key: "Transaction_ID", type: "text" },
     { label: "Order ID", key: "Order_ID", type: "text" },
     { label: "Shop Name", key: "Shop_Name", type: "text" },
+    { label: "Category", key: "Category", type: "text" },
     { label: "Customer Name", key: "Customer_Name", type: "text" },
-    { label: "Date Purchased", key: "Date_Purchased", type: "date" },
-    { label: "Date Return", key: "Date_Return", type: "date" },
-    { label: "Quantity", key: "Quantity", type: "number" },
+    { label: "Date Purchase", key: "Date_Purchase", type: "date" },
+    { label: "Order Quantity", key: "Quantity", type: "number" },
+    { label: "Total Price", key: "Total_Price", type: "number" },
+    { label: "Payment Status", key: "Payment_Status", type: "text" },
+    { label: "Payment Method", key: "Payment_Method", type: "text" },
+    { label: "Delivery Fee", key: "Delivery Fee", type: "text" },
     { label: "Status", key: "Status", type: "status" },
     { label: "Details", key: null, type: "button", buttonText: "View", onClick: openDetailsModal },
-    { label: "Actions", key: null, type: "action", onClick: openStatusModal },
+    { label: "Actions", key: null, type: "action", onClick: openStatusModal }
   ];
 
   // Fetch data from the API
@@ -41,7 +43,7 @@ const ReturnRefund = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch("https://retoolapi.dev/SWvloe/refund-return-order");
+        const response = await fetch("https://retoolapi.dev/R4B86S/product-order");
         
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
@@ -63,13 +65,15 @@ const ReturnRefund = () => {
 
   // Status tracking for timeline in details modal
   const statusItems = [
-    { status: "Request Denied", time: " ", active: selectedItem?.Status === "Denied", highlight: false },
-    { status: "Refunded", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Approved", highlight: false },
-    { status: "Item Returned", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Completed", highlight: true },
-    { status: "Pick up by Rider", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Picked Up", highlight: false },
-    { status: "Returning Process", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Reviewing", highlight: false },
-    { status: "Approved", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Confirmed", highlight: false },
-    { status: "Pending", time: "Pending", active: selectedItem?.Status === "Pending", highlight: false },
+    { status: "Cancelled", time: " ", active: selectedItem?.Status === "Denied", highlight: false },
+    { status: "Completed", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Approved", highlight: false },
+    { status: "Delivered", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Delivered", highlight: true },
+    { status: "For Delivery", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "For Delivery", highlight: false },
+    { status: "Ready for Pick up", time: "Mar 18, 10:30 AM", active: selectedItem?.Status === "Ready for Pick up", highlight: false },
+    { status: "Confirmed", time: "20/01/2024", active: selectedItem?.Status === "Confirmed", highlight: false },
+    { status: "Pending", time: "20/01/2024", active: selectedItem?.Status === "Pending", highlight: false },
+
+
   ];
 
   // Handle sort change
@@ -153,7 +157,7 @@ const ReturnRefund = () => {
   // Update status function
   const updateStatus = async (item) => {
     try {
-      const response = await fetch(`https://retoolapi.dev/SWvloe/refund-return-order/${item.id}`, {
+      const response = await fetch(`https://retoolapi.dev/R4B86S/product-order/${item.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -188,13 +192,17 @@ const ReturnRefund = () => {
         return "bg-amber-50 bg-opacity-10 text-yellow-400";
       case "Cancelled":
         return "bg-red-50 bg-opacity-10 text-red-400";
+        case "Janke": 
+        return "bg-red-50 bg-opacity-10 text-red-400";
+        case "Fred": 
+        return "bg-red-50 bg-opacity-10 text-red-400";
       default:
         return "bg-blue-50 bg-opacity-10 text-blue-400";
     }
   };
 
   return (
-    <div className="container bg-webpage-bg flex flex-col">
+    <div className="container mx-12 px-6 py-8 bg-webpage-bg">
       {/* Search and Sort Component */}
       <SearchSortContainer
         search={search}
@@ -204,8 +212,6 @@ const ReturnRefund = () => {
         setCurrentPage={setCurrentPage}
         filteredData={filteredData}
         pageHeaderName={pageHeaderName}
-        isAddVisible={isAddVisible}
-        addLabel={addLabel}
       />
 
       {/* Loading and Error States */}
@@ -237,7 +243,7 @@ const ReturnRefund = () => {
       )}
 
       {/* Modals Component */}
-      <RefundModal
+      <ProductModal
         showModal={showModal}
         setShowModal={setShowModal}
         modalType={modalType}
@@ -247,10 +253,9 @@ const ReturnRefund = () => {
         setIsProductExpanded={setIsProductExpanded}
         updateStatus={updateStatus}
         statusItems={statusItems}
-        role
       />
     </div>
   );
 };
 
-export default ReturnRefund;
+export default Product;

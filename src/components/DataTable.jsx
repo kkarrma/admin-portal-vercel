@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { RiExpandUpDownLine } from "react-icons/ri";
 import { FaCircleCheck, FaCircleXmark, FaEye, FaSort, FaSortUp, FaSortDown } from "react-icons/fa6";
 import { BiSolidEdit } from "react-icons/bi";
-import { RiDeleteBin6Fill } from "react-icons/ri";
-import { Tooltip } from "react-tooltip";
+import "./index.scss";
 
 const DataTable = ({
   columns,
@@ -25,16 +24,26 @@ const DataTable = ({
     direction: "asc",
   });
   
-  const [hoverRowId, setHoverRowId] = useState(null);
-  const [isScrollable, setIsScrollable] = useState(false);
+  // Refs for synchronized scrolling
+  const headerRef = useRef(null);
+  const bodyRef = useRef(null);
 
-  // Check if table body is scrollable
+  // Set up synchronized scrolling between header and body
   useEffect(() => {
-    const tableBody = document.querySelector('.table-body-container');
-    if (tableBody) {
-      setIsScrollable(tableBody.scrollHeight > tableBody.clientHeight);
+    const handleBodyScroll = () => {
+      if (headerRef.current && bodyRef.current) {
+        headerRef.current.scrollLeft = bodyRef.current.scrollLeft;
+      }
+    };
+
+    const bodyElement = bodyRef.current;
+    if (bodyElement) {
+      bodyElement.addEventListener('scroll', handleBodyScroll);
+      return () => {
+        bodyElement.removeEventListener('scroll', handleBodyScroll);
+      };
     }
-  }, [paginatedData]);
+  }, []);
 
   // Format date to Month DD, YYYY
   const formatDate = (dateString) => {
@@ -153,11 +162,7 @@ const DataTable = ({
       case "date":
         return formatDate(item[column.key]);
       case "number":
-        return (
-          <div className="text-center">
-            {item[column.key] || "0"}
-          </div>
-        );
+        return <div className="text-center">{item[column.key] || "0"}</div>;
       case "status":
         return (
           <div className="flex items-center justify-center">
@@ -170,19 +175,29 @@ const DataTable = ({
             </span>
           </div>
         );
+      case "status-2":
+        return (
+          <div className="flex items-center justify-center">
+            <span
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusClass(
+                item[column.key]
+              )}`}
+            >
+              {item[column.key] === true
+                ? "Verified"
+                : item[column.key] === false
+                ? "Not Verified"
+                : "Pending"}
+            </span>
+          </div>
+        );
       case "button":
         return (
           <div className="flex items-center justify-center">
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                column.onClick(item);
-              }}
-              className="bg-unleash-blue hover:bg-blue-600 border text-white px-3 py-1 rounded-full text-xs font-medium transition-colors flex items-center gap-1"
-              data-tooltip-id="action-tooltip"
-              data-tooltip-content={column.buttonText || "Action"}
+              onClick={() => column.onClick(item)}
+              className="bg-unleash-blue-light hover:bg-blue-600 border text-white px-3 py-1 rounded-full text-xs font-medium transition-colors"
             >
-              {column.buttonIcon && column.buttonIcon}
               {column.buttonText || "Action"}
             </button>
           </div>
@@ -190,47 +205,16 @@ const DataTable = ({
       case "action":
         return (
           <div className="flex items-center justify-center">
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                column.onClick(item);
-              }}
-              data-tooltip-id="action-tooltip"
-              data-tooltip-content="View Details"
-            >
+            <button onClick={() => column.onClick(item)}>
               {actionIcon(item.Status)}
             </button>
           </div>
         );
-      case "delete":
+      case "action-2":
         return (
           <div className="flex items-center justify-center">
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                column.onClick(item);
-              }}
-              className="text-red-500 hover:text-red-700 transition-colors"
-              data-tooltip-id="action-tooltip"
-              data-tooltip-content="Delete Item"
-            >
-              <RiDeleteBin6Fill className="text-lg" />
-            </button>
-          </div>
-        );
-      case "view":
-        return (
-          <div className="flex items-center justify-center">
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                column.onClick(item);
-              }}
-              className="text-blue-500 hover:text-blue-700 transition-colors"
-              data-tooltip-id="action-tooltip"
-              data-tooltip-content="View Details"
-            >
-              <FaEye className="text-lg" />
+            <button onClick={() => column.onClick(item)}>
+              {actionIcon(item.Status)}
             </button>
           </div>
         );
@@ -239,13 +223,21 @@ const DataTable = ({
     }
   };
 
+  // Generate table columns with consistent widths
+  const columnWidths = columns.map((col, index) => {
+    return `minmax(${col.minWidth || '100px'}, ${col.width || '1fr'})`;
+  }).join(' ');
+
   return (
     <div className="mx-auto max-w-full">
       {/* Data Table */}
-      <div className="bg-[#F9F9F9] rounded-xl shadow-md overflow-x-auto relative">
-        {/* Table Header */}
-        <div className="">
-          <table className="w-full divide-y divide-gray-200 lg:table-fixed">
+      <div className="bg-[#F9F9F9] rounded-xl shadow-md">
+        {/* Header Table with horizontal scroll */}
+        <div 
+          ref={headerRef} 
+          className="overflow-x-hidden overflow-y-hidden"
+        >
+          <table className="min-w-full divide-y divide-gray-200" style={{tableLayout: "fixed"}}>
             <thead className="bg-gray-50">
               <tr>
                 {allowSelection && (
@@ -262,7 +254,8 @@ const DataTable = ({
                   <th
                     key={index}
                     scope="col"
-                    className={`px-4 py-3 text-center text-xs font-medium text-[#6D6D71] ${column.width || 'w-1/11'} ${column.key ? 'cursor-pointer' : ''}`}
+                    className="px-4 py-6 text-center text-xs font-medium text-[#6D6D71] cursor-pointer whitespace-nowrap"
+                    style={{minWidth: column.minWidth || '100px'}}
                     onClick={() => column.key && handleSort(column.key)}
                   >
                     <div className="inline-flex items-center justify-center">
@@ -276,53 +269,28 @@ const DataTable = ({
           </table>
         </div>
 
-        {/* Inner Container for Table Body */}
-        <div className="bg-white rounded-b-xl mx-3 max-h-[53dvh] overflow-y-auto table-body-container">
-          {loading ? (
-            <div className="flex justify-center items-center py-20">
-              <div className="loader animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-unleash-blue"></div>
-            </div>
-          ) : sortedData.length === 0 ? (
-            <div className="flex flex-col justify-center items-center py-16 text-gray-500">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mb-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M12 20h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <p className="text-lg font-medium">No data found</p>
-              <p className="text-sm">Try changing your search or filters</p>
-            </div>
-          ) : (
-            <table className="w-full divide-y divide-gray-200 table-fixed">
-              <tbody className="divide-y divide-gray-100">
-                {sortedData.map((item) => (
-                  <tr 
-                    key={item.id} 
-                    className={`hover:bg-gray-50 transition-colors ${onRowClick ? 'cursor-pointer' : ''} ${selectedRows.includes(item.id) ? 'bg-blue-50' : ''} ${hoverRowId === item.id ? 'bg-gray-50' : ''}`}
-                    onClick={() => onRowClick && onRowClick(item)}
-                    onMouseEnter={() => setHoverRowId(item.id)}
-                    onMouseLeave={() => setHoverRowId(null)}
-                  >
-                    {allowSelection && (
-                      <td className="px-2 py-3 whitespace-nowrap w-10" onClick={(e) => e.stopPropagation()}>
-                        <div className="flex justify-center">
-                          <input
-                            type="checkbox"
-                            checked={selectedRows.includes(item.id)}
-                            onChange={() => toggleRowSelection(item.id)}
-                            className="form-checkbox h-4 w-4 text-unleash-blue rounded focus:ring-unleash-blue"
-                          />
-                        </div>
-                      </td>
-                    )}
-                    {columns.map((column, index) => (
-                      <td key={index} className={`px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900 ${column.align ? `text-${column.align}` : ''}`}>
-                        {renderCellContent(item, column)}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+        {/* Body Table with synchronized scroll */}
+        <div 
+          ref={bodyRef}
+          className="bg-white overflow-x-auto overflow-y-auto max-h-[52dvh]"
+        >
+          <table className="min-w-full divide-y divide-gray-200" style={{tableLayout: "fixed"}}>
+            <tbody className="divide-y divide-gray-100">
+              {sortedData.map((item) => (
+                <tr key={item.id} className="hover:bg-gray-50">
+                  {columns.map((column, index) => (
+                    <td 
+                      key={index} 
+                      className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900"
+                      style={{minWidth: column.minWidth || '100px'}}
+                    >
+                      {renderCellContent(item, column)}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
         {/* Scroll indicator */}
@@ -333,7 +301,7 @@ const DataTable = ({
         )}
 
         {/* Pagination and Row Range Info */}
-        <div className="flex justify-between items-center mb-6 mt-6 mx-9">
+        <div className="flex justify-between items-center mb-6 mt-6 mx-9 pb-4">
           <div className="text-xs text-[#6D6D71] font-poppins font-medium flex items-center">
             <span>Showing</span>
             <select
@@ -373,10 +341,14 @@ const DataTable = ({
                 onClick={() =>
                   typeof pageNum === "number" ? setCurrentPage(pageNum) : null
                 }
-                className={`w-7 h-7 flex items-center justify-center mx-1 border rounded-full text-xs font-poppins font-medium border-[#EEEEEE] text-[#404B52] ${
-                  currentPage === pageNum
-                    ? "bg-unleash-blue text-white border-[#5932EA] border-2"
-                    : "bg-[#F5F5F5] text-gray-700"
+                className={`w-7 h-7 flex items-center justify-center mx-1 ${
+                  typeof pageNum !== "number"
+                    ? "border-none bg-transparent"
+                    : `border rounded-full text-xs font-poppins font-medium border-[#EEEEEE] text-[#404B52] ${
+                        currentPage === pageNum
+                          ? "bg-unleash-blue-light text-white border-[#5932EA] border-2"
+                          : "bg-[#F5F5F5] text-gray-700"
+                      }`
                 }`}
               >
                 {pageNum}
@@ -386,7 +358,10 @@ const DataTable = ({
             <button
               onClick={() =>
                 setCurrentPage((prev) =>
-                  Math.min(Math.ceil(filteredData.length / itemsPerPage), prev + 1)
+                  Math.min(
+                    Math.ceil(filteredData.length / itemsPerPage),
+                    prev + 1
+                  )
                 )
               }
               disabled={

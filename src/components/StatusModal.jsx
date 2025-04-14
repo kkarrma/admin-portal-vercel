@@ -31,7 +31,7 @@ const StatusModal = ({
 
   // Map status to corresponding cart icon
   const cartIcon = (status) => {
-    switch (status.toLowerCase()) {
+    switch (status?.toLowerCase()) {
       case "pending":
         return <BsCartFill className="text-2xl text-gray-600 mr-3" />;
       case "approved":
@@ -95,23 +95,23 @@ const StatusModal = ({
 
         <div className="p-4 space-y-4">
           {/* Customer Name */}
-          <div className="bg-gray-100 flex items-center p-4">
+          <div className="bg-gray-100 flex items-center p-4 rounded-lg">
             <FaUserLarge className="text-2xl text-gray-600 mr-3" />
-            <span className="text-gray-800 ml-2 font-medium font-montserrat text-md">
+            <span className="text-gray-800 ml-2 font-medium font-montserrat text-md uppercase">
               {selectedItem.Customer_Name}
             </span>
           </div>
 
           {/* Purchase Date */}
-          <div className="bg-gray-100 p-4 flex items-center">
+          <div className="bg-gray-100 p-4 flex items-center rounded-lg">
             <IoCalendarClear className="text-2xl text-gray-600 mr-3" />
-            <span className="text-gray-800 ml-2 font-medium font-montserrat text-md">
+            <span className="text-gray-800 ml-2 font-medium font-montserrat text-md uppercase">
               {formatDate(selectedItem.Date_Purchased)}
             </span>
           </div>
 
           {/* Status Selection */}
-          <div className="bg-gray-100 p-4 flex items-center relative focus-within:ring-2 focus-within:ring-unleash-blue">
+          <div className="bg-gray-100 rounded-lg p-4 flex items-center relative focus-within:ring-2 focus-within:ring-unleash-blue">
             {cartIcon(selectedItem.Status)}
 
             {/* Custom Dropdown Button */}
@@ -120,7 +120,7 @@ const StatusModal = ({
                 className="w-full flex items-center justify-between bg-transparent text-gray-800 font-medium font-montserrat outline-none"
                 onClick={() => setShowDropdown(!showDropdown)}
               >
-                <div className="flex items-center">
+                <div className="flex items-center uppercase">
                   {/* {cartIcon(selectedItem.Status)} */}
                   <span className="ml-2">{selectedItem.Status}</span>
                 </div>
@@ -143,7 +143,7 @@ const StatusModal = ({
               {/* Dropdown Options */}
               {showDropdown && (
                 <div className="absolute top-full w-full bg-white shadow-md z-20 rounded-md mt-1 max-h-48 overflow-y-auto">
-                  {["Pending", "Completed", "Approved", "Cancelled"].map(
+                  {["Pending", "Confirmed", "Approved", "Cancelled"].map(
                     (status) => (
                       <div
                         key={status}
@@ -157,8 +157,8 @@ const StatusModal = ({
                             : "bg-white"
                         }`}
                       >
-                        {cartIcon(status.toLowerCase())}
-                        <span className="ml-2">{status}</span>
+                        {cartIcon(status)}
+                        <span className="ml-2 font-montserrat font-medium uppercase">{status}</span>
                       </div>
                     )
                   )}

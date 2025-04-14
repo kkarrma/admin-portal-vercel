@@ -67,7 +67,7 @@ const SearchSortContainer = ({
   console.log("Modal open state:", isModalOpen);
 
   return (
-    <div className="mx-auto max-w-full px-4 py-4 bg-white rounded-lg shadow mb-4">
+    <div className="max-w-full px-4 py-4 bg-white rounded-lg shadow mb-4">
       {/* Header with total count */}
       <div className="flex justify-between items-center mb-4 border-b border-gray-200 pt-4 pb-6">
         <div className="flex items-baseline">
