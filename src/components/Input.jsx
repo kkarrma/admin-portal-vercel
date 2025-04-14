@@ -41,7 +41,7 @@ export default function Input({ type = "text", label = "", id = "", LeftIcon, to
                         className={`bg-transparent outline-none w-full font-montserrat resize-none text-base border-none focus:outline-none focus:ring-0 text-black ${classNameInput}`}
                         onFocus={() => setIsActive(true)}
                         value={input}
-                        onChange={e => setInput(e.target.value)}
+                        onChange={(e) => setInput(e.target.value)}
                         onBlur={(e) => setIsActive(e.target.value !== "")}
                     />
                     :
@@ -51,7 +51,7 @@ export default function Input({ type = "text", label = "", id = "", LeftIcon, to
                         className={`bg-transparent outline-none w-full font-montserrat text-base border-none focus:outline-none focus:ring-0 text-black ${classNameInput}`}
                         onFocus={() => setIsActive(true)}
                         value={input}
-                        onChange={e => setInput(e.target.value)}
+                        onChange={(e) => setInput(e.target.value)}
                         onBlur={(e) => setIsActive(e.target.value !== "")} // Keep active if there's text
                     />
 
