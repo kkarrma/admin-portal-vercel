@@ -129,11 +129,7 @@ const DataTable = ({
       case "date":
         return formatDate(item[column.key]);
       case "number":
-        return (
-          <div className="text-center">
-            {item[column.key] || "0"}
-          </div>
-        );
+        return <div className="text-center">{item[column.key] || "0"}</div>;
       case "status":
         return (
           <div className="flex items-center justify-center">
@@ -143,6 +139,22 @@ const DataTable = ({
               )}`}
             >
               {item[column.key] || "Pending"}
+            </span>
+          </div>
+        );
+      case "status-2":
+        return (
+          <div className="flex items-center justify-center">
+            <span
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusClass(
+                item[column.key]
+              )}`}
+            >
+              {item[column.key] === true
+                ? "Verified"
+                : item[column.key] === false
+                ? "Not Verified"
+                : "Pending"}
             </span>
           </div>
         );
@@ -158,6 +170,14 @@ const DataTable = ({
           </div>
         );
       case "action":
+        return (
+          <div className="flex items-center justify-center">
+            <button onClick={() => column.onClick(item)}>
+              {actionIcon(item.Status)}
+            </button>
+          </div>
+        );
+      case "action-2":
         return (
           <div className="flex items-center justify-center">
             <button onClick={() => column.onClick(item)}>
@@ -290,7 +310,10 @@ const DataTable = ({
             <button
               onClick={() =>
                 setCurrentPage((prev) =>
-                  Math.min(Math.ceil(filteredData.length / itemsPerPage), prev + 1)
+                  Math.min(
+                    Math.ceil(filteredData.length / itemsPerPage),
+                    prev + 1
+                  )
                 )
               }
               disabled={
