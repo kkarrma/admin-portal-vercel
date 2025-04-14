@@ -11,8 +11,10 @@ import { PiSignOutBold } from "react-icons/pi";
 import "./index.scss"
 import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import Header from "./Header";
+import { ROLES_CONFIGS } from "../variables/USER_ROLES";
 
-export default function Sidebar({ accountStatus, children, role = "Super Admin" }) {
+export default function Sidebar({ accountStatus, accountType, profileData, children }) {
 
     const SIDEBAR_ITEMS = [
         {
@@ -79,16 +81,16 @@ export default function Sidebar({ accountStatus, children, role = "Super Admin" 
                 {children}
             </>
             :
-            <div className="relative h-[100vh] bg-website-color">
-                <div className={`absolute z-10 bg-website-light h-[95.75%] top-[2.125%] left-5 shadow-sm flex flex-col pb-4 rounded-lg`}>
+            <div className="flex h-[100vh] bg-website-color justify-center items-center">
+                <div className={`transition-all duration-300 z-10 bg-website-light h-[95.75%] ml-5 shadow-sm flex flex-col pb-4 rounded-lg`}>
 
                     {/* Dashboard Header */}
                     <div className="flex flex-row items-center mx-8 gap-16 my-8">
                         <div className={`flex flex-row gap-1 flex-1`}>
-                            <img src={open?unleash_logo:unleash_icon} alt="Unleash Logo" className={`transition-all select-none duration-100 h-10 ${open?"":""}`}
-                            onClick={() => setOpen(true)}/>
+                            <img src={open ? unleash_logo : unleash_icon} alt="Unleash Logo" className={`transition-all select-none duration-100 h-10 ${open ? "" : ""}`}
+                                onClick={() => setOpen(true)} />
                             <div className={`px-2 py-1 rounded-full bg-unleash-blue mt-auto h-fit justify-center items-center flex ${open ? "" : "hidden"}`}>
-                                <p className="text-[10px] font-montserrat text-white font-medium">{role}</p>
+                                <p className="text-[10px] font-montserrat text-white font-medium">{ROLES_CONFIGS[accountType]?.tag.name}</p>
                             </div>
                         </div>
                         <div className={`flex justify-center items-center cursor-pointer ${open ? "h-full w-7" : "hidden"}`}
@@ -115,7 +117,8 @@ export default function Sidebar({ accountStatus, children, role = "Super Admin" 
                     </div>
                     <IoPaw className={`absolute opacity-[.18] text-website-gray-400 -rotate-[23.21deg] w-8 h-auto bottom-5 right-5 z-10 ${open ? "" : "hidden"}`} />
                 </div>
-                <div className={`flex-1 duration-150 ease-in-out ${open ? "ms-80" : "ms-28"}`}>
+                <div className={`flex-1 h-[95.75%] px-6 overflow-y-scroll duration-150 ease-in-out`}>
+                    <Header title={ROLES_CONFIGS[accountType]?.header} profileData={profileData} />
                     {children}
                 </div>
             </div>

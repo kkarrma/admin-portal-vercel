@@ -11,6 +11,7 @@ import Input from "../components/Input";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import OTPBar from "../components/OTPBar";
+import { USER_ROLES } from "../variables/USER_ROLES";
 
 /**
  * @typedef {"SIGN_IN" | "SIGN_UP"} ModeType
@@ -20,20 +21,32 @@ import OTPBar from "../components/OTPBar";
  * @param {{ mode: ModeType }} props
  */
 
-export default function Login({ mode, accountStatus }) {
+export default function Login({ mode, accountStatus, accountType, profileData }) {
 
     const MOCK_ACCOUNTS = {
         "super_admin": {
             password: "password1234",
-            role: "super_admin"
+            role: USER_ROLES.SUPER_ADMIN,
+            profileData: {
+                pfp: null,
+                username: "Super Admin"
+            }
         },
         "marketing1": {
             password: "password1234",
-            role: "marketing_admin"
+            role: USER_ROLES.MARKETING_ADMIN,
+            profileData: {
+                pfp: null,
+                username: "Marketing Admin"
+            }
         },
         "merchant_account@gmail.com": {
             password: "password1234",
-            role: "merchant"
+            role: USER_ROLES.MERCHANT,
+            profileData: {
+                pfp: null,
+                username: "Merchant"
+            }
         }
     }
 
@@ -70,6 +83,8 @@ export default function Login({ mode, accountStatus }) {
             if (!credentials) incorrectCredentials();
             else {
                 accountStatus.setter(true);
+                accountType.setter(MOCK_ACCOUNTS[email].role);
+                profileData.setter(MOCK_ACCOUNTS[email].profileData);
                 navigate("/");
             }
         } else if (mode === "SIGN_UP") {
