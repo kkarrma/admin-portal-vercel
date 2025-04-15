@@ -1,5 +1,6 @@
 # React + Vite
 
+<<<<<<< HEAD
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
@@ -10,3 +11,31 @@ Currently, two official plugins are available:
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+=======
+This project is built using **React** with **Vite** as the build tool.
+
+## Environment
+
+- **Node.js Version**: `v23.7.0`
+- **npm Version**: `11.1.0`
+
+## Getting Started
+
+To install dependencies:
+
+```bash
+npm install
+```
+
+To start the development server:
+
+```bash
+npm run dev
+```
+
+To build for production:
+```bash
+npm run build
+```
+
+>>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0

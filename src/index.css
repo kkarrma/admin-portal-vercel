@@ -10,9 +10,17 @@
   --color-unleash-yellow: #EBDDAE;
   --color-unleash-orange: #FF9304;
   --color-website-color : #E4EBF3;
+<<<<<<< HEAD
   --color-website-light: #F8F9FE;
   --color-website-gray-400: #A9AAAF;
   --color-website-gray-200: #E5E5E7;
+=======
+  --color-website-green : #00AC4F;
+  --color-website-light: #F8F9FE;
+  --color-website-gray-400: #A9AAAF;
+  --color-website-gray-300: #E5E5E7;
+  --color-website-gray-200: #EEEEEF;
+>>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
   --color-website-gray-100: #F9F9F9;
   --color-website-gray: #6E6F78;
   --color-website-red: #F45E4E;

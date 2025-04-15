@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import SearchSortContainer from "../components/SearchSortContainer";
 import DataTable from "../components/DataTable";
 import { ClassNames } from "@emotion/react";
+<<<<<<< HEAD
 import UserManagementModal from "../components/UserManagementModal";
+=======
+>>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
 
 const UserManagement = () => {
   const [data, setData] = useState([]);
@@ -21,18 +24,22 @@ const UserManagement = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isProductExpanded, setIsProductExpanded] = useState(false);
 
+<<<<<<< HEAD
   const openUserManagementModal = (user) => {
     setSelectedUser(user);
     setModalType("action");
     setShowModal(true);
   };
   
+=======
+>>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
   const tableColumns = [
     { label: "Email", key: "Email", type: "text" },
     { label: "Username", key: "Username", type: "text" },
     { label: "First Name", key: "First_Name", type: "text" },
     { label: "Last Name", key: "Last_Name", type: "text" },
     { label: "Number of Pets", key: "Number_Of_Pets", type: "number" },
+<<<<<<< HEAD
     {
       label: "Verification Status",
       key: "Verification_Status",
@@ -47,6 +54,13 @@ const UserManagement = () => {
       type: "action",
       onClick: openUserManagementModal,
     },
+=======
+    { label: "Verification Status", key: "Verification_Status", type: "status-2"},
+    { label: "Number of Followers", key: "Followers", type: "number" },
+    { label: "Number of Following", key: "Following", type: "number" },
+    { label: "Number of Referrals", key: "Referrals", type: "number" },
+    { label: "Actions", key: "null", type: "action-2"},
+>>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
   ];
 
   // Fetch data from the API
@@ -137,6 +151,15 @@ const UserManagement = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
 
+<<<<<<< HEAD
+=======
+  const openDetailsModal = (user) => {
+    setSelectedUser(user);
+    setModalType("details");
+    setShowModal(true);
+  };
+
+>>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-8 bg-webpage-bg">
       <SearchSortContainer
@@ -178,12 +201,15 @@ const UserManagement = () => {
         />
       )}
 
+<<<<<<< HEAD
       <UserManagementModal
         showModal={showModal}
         setShowModal={setShowModal}
         selectedUser={selectedUser}
       />
 
+=======
+>>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
       {/*<UserDetailsModal
         showModal={showModal}
         setShowModal={setShowModal}

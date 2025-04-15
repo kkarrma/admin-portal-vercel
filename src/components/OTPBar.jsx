@@ -41,7 +41,11 @@ export default function OTPBar({ value = "", onComplete }) {
                 <input
                     key={i}
                     type="text"
+<<<<<<< HEAD
                     className="w-10 h-10 text-center outline-2 outline-website-gray-200 rounded-sm bg-website-gray-100"
+=======
+                    className="w-10 h-10 text-center outline-2 outline-website-gray-300 rounded-sm bg-website-gray-100"
+>>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
                     value={otp[i] !== " " ? otp[i] : ""}
                     maxLength={1}
                     ref={(el) => (inputsRef.current[i] = el)}
