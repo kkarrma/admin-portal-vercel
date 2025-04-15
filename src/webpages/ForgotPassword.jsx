@@ -63,6 +63,7 @@ export default function ForgotPassword() {
         if (OTP === confirmedOTP) {
             setPage(3);
         } else {
+
             console.log(`OTP:${OTP}; confirmedOTP:${confirmedOTP}`);
             setForgotPasswordError({ title: "OTP Error!", subtitle: "Incorrect OTP used. Please try again." });
             // show error
@@ -70,6 +71,7 @@ export default function ForgotPassword() {
             setTimeout(() => {
                 setForgotPasswordErrorStatus(false);
             }, 2500);
+
         }
     }
 
