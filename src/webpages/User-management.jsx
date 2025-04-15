@@ -175,6 +175,7 @@ const UserManagement = () => {
           handleSortChange={handleSortChange}
           sortKey={sortKey}
           sortDirection={sortDirection}
+          isUserManagement={true}
         />
       )}
 
