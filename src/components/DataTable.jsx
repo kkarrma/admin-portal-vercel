@@ -146,6 +146,22 @@ const DataTable = ({
             </span>
           </div>
         );
+      case "status-2":
+        return (
+          <div className="flex items-center justify-center">
+            <span
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusClass(
+                item[column.key]
+              )}`}
+            >
+              {item[column.key] === true
+                ? "Yes"
+                : item[column.key] === false
+                ? "No"
+                : "Pending"}
+            </span>
+          </div>
+        );
       case "button":
         return (
           <div className="flex items-center justify-center">
