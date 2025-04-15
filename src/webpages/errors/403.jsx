@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-export default function Forbidden() {
-    return (
-        <div className="h-screen w-full flex flex-col justify-center items-center">
-            <h1>ERROR 403</h1>
-            <h3>Forbidden access.</h3>
-=======
 import { useNavigate } from "react-router-dom";
 import blob_bg from "../../assets/sign-in-page/blob.png";
 import upper_left_paw_path from "../../assets/sign-in-page/upper-left-paw-path.png";
@@ -26,7 +19,6 @@ export default function Forbidden() {
                 <p className="font-montserrat text-base text-white">Forbidden access.</p>
                 <p className="px-4 py-2 rounded-full text-white bg-unleash-orange font-montserrat text-xs mt-4 hover:brightness-90 select-none cursor-pointer" onClick={(e) => navigate(-1)}>Go Back</p>
             </div>
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
         </div>
     );
 }

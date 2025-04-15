@@ -3,21 +3,13 @@ import "./index.scss";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 /**
-<<<<<<< HEAD
- * @typedef {"button" | "email" | "password" | "text"} typeType
-=======
  * @typedef {"button" | "email" | "password" | "text" | "textbox" | "tel"} typeType
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
  */
 
 /**
  * @param {{ type: typeType }} props
  */
-<<<<<<< HEAD
-export default function Input({ type = "text", label = "", id = "", LeftIcon, toggle = false, toggleState = false, input, setInput }) {
-=======
 export default function Input({ type = "text", label = "", id = "", LeftIcon, toggle = false, toggleState = false, input, setInput, className, classNameInput }) {
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
     const [isActive, setIsActive] = useState(false);
     const [tempType, setTempType] = useState(type);
     const [toggleCurrentState, setToggleCurrentState] = useState(toggleState);
@@ -31,11 +23,7 @@ export default function Input({ type = "text", label = "", id = "", LeftIcon, to
     }
 
     return (
-<<<<<<< HEAD
-        <div className={`flex flex-row items-center gap-3 relative outline-unleash-blue rounded-sm px-2 py-3 w-full ${isActive ? "outline-2" : "outline-1"}`}>
-=======
         <div className={`flex flex-row gap-3 relative outline-unleash-blue rounded-sm px-2 py-3 w-full ${isActive ? "outline-2" : "outline-1"} ${className}`}>
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
             {LeftIcon && React.cloneElement(LeftIcon, { ...LeftIcon.props, className: `text-website-gray h-6 w-6 ${LeftIcon.props.className || ""}` })}
             {label && (
                 <label
@@ -46,19 +34,6 @@ export default function Input({ type = "text", label = "", id = "", LeftIcon, to
                     {label}
                 </label>
             )}
-<<<<<<< HEAD
-            <input
-                id={id}
-                type={tempType}
-                className="bg-transparent outline-none w-full font-montserrat text-base border-none focus:outline-none focus:ring-0 text-black"
-                onFocus={() => setIsActive(true)}
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onBlur={(e) => setIsActive(e.target.value !== "")
-
-                } // Keep active if there's text
-            />
-=======
             {
                 type === "textbox" ?
                     <textarea
@@ -81,7 +56,6 @@ export default function Input({ type = "text", label = "", id = "", LeftIcon, to
                     />
 
             }
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
             {toggle && type === "password" && (
                 toggleCurrentState ?
                     <FaEyeSlash className="text-website-gray w-6 items-center justify-center cursor-pointer select-none"
