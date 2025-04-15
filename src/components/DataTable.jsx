@@ -209,7 +209,7 @@ const DataTable = ({
                     key={index}
                     scope="col"
                     className="px-4 py-6 text-center text-xs font-medium text-[#6D6D71] cursor-pointer whitespace-nowrap"
-                    style={{ minWidth: column.key === 'Email' ? '220px' : (column.minWidth || '100px') }}
+                    style={{ minWidth: column.key === 'Email' ? '200px' : (column.minWidth || '100px') }}
                     onClick={() => column.key && handleSort(column.key)}
                   >
                     <div className="inline-flex items-center">
