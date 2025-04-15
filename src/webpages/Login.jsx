@@ -2,18 +2,6 @@ import blob_bg from "../assets/sign-in-page/blob.png";
 import upper_left_paw_path from "../assets/sign-in-page/upper-left-paw-path.png";
 import lower_right_paw_path from "../assets/sign-in-page/lower-right-paw-path.png";
 import unleash_banner from "../assets/unleash_banner.png";
-<<<<<<< HEAD
-import animals_design from "../assets/sign-in-page/sign-in-page-animals.png"
-import { FaUserLarge } from "react-icons/fa6";
-import { IoIosLock, IoIosCloseCircle } from "react-icons/io";
-import { IoCloseOutline } from "react-icons/io5";
-import "./styles/webpage.scss"
-import Input from "../components/Input";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import OTPBar from "../components/OTPBar";
-import { USER_ROLES } from "../variables/USER_ROLES";
-=======
 import animals_design from "../assets/sign-in-page/sign-in-page-animals.png";
 import bottom_animals from "../assets/sign-in-page/sign-up-merchant/bottom-animals.png";
 import bottom_blob from "../assets/sign-in-page/sign-up-merchant/bottom-blob.png";
@@ -28,7 +16,6 @@ import { useEffect, useRef, useState } from "react";
 import OTPBar from "../components/OTPBar";
 import { USER_ROLES } from "../variables/USER_ROLES";
 import { EMAILS } from "../data/email";
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
 
 /**
  * @typedef {"SIGN_IN" | "SIGN_UP"} ModeType
@@ -40,7 +27,6 @@ import { EMAILS } from "../data/email";
 
 export default function Login({ mode, accountStatus, accountType, profileData }) {
 
-<<<<<<< HEAD
     const MOCK_ACCOUNTS = {
         "super_admin": {
             password: "password1234",
@@ -68,8 +54,6 @@ export default function Login({ mode, accountStatus, accountType, profileData })
         }
     }
 
-=======
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -83,16 +67,13 @@ export default function Login({ mode, accountStatus, accountType, profileData })
     const [signUpPage, setSignUpPage] = useState(1);
     const [OTP, setOTP] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-<<<<<<< HEAD
     const [confirmOTP, setConfirmOTP] = useState("");
-=======
     const [shopName, setShopName] = useState("");
     const [shopDescription, setShopDescription] = useState("");
     const [shopPhoneNumber, setShopPhoneNumber] = useState("");
     const [successSignUp, setSuccessSignUp] = useState(false);
     const fileInputRef = useRef(null);
     const [imagePreview, setImagePreview] = useState(null);
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
 
     // Reset state when route changes
     useEffect(() => {
@@ -103,33 +84,18 @@ export default function Login({ mode, accountStatus, accountType, profileData })
         setConfirmPassword("");
         setSignUpPage(1);
         setOTP("");
-<<<<<<< HEAD
-        setConfirmOTP("");
-=======
         setShopName("");
         setShopDescription("");
         setShopPhoneNumber("");
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
     }, [location.pathname]); // Runs whenever the URL changes
 
     const primaryButtonTrigger = () => {
         if (mode === "SIGN_IN") {
-<<<<<<< HEAD
-            var credentials = password === MOCK_ACCOUNTS[email]?.password;
-            if (!credentials) incorrectCredentials();
-            else {
-                accountStatus.setter(true);
-                accountType.setter(MOCK_ACCOUNTS[email].role);
-                profileData.setter(MOCK_ACCOUNTS[email].profileData);
-                navigate("/");
-            }
-=======
             if (incorrectCredentials()) return;
             accountStatus.setter(true);
             accountType.setter(EMAILS[email].role);
             profileData.setter(EMAILS[email].profileData);
             navigate("/");
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
         } else if (mode === "SIGN_UP") {
             switch (signUpPage) {
                 case 1:
@@ -137,19 +103,7 @@ export default function Login({ mode, accountStatus, accountType, profileData })
                      * temporarily store credentials.
                      * send OTP to email.
                      */
-<<<<<<< HEAD
-                    if (checkSignUpCredentials()) setSignUpPage(2);
-                    else {
-                        // show error
-                        setSignInErrorStatus(true);
-                        setTimeout(() => {
-                            setSignInErrorStatus(false);
-                        }, 2500);
-                    }
-                    sendOTP();
-=======
                     checkSignUpCredentials();
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
                     break;
                 case 2:
                     confirmOTPFunction();
@@ -159,11 +113,7 @@ export default function Login({ mode, accountStatus, accountType, profileData })
                      * store profile details.
                      * show popup of successful account creation.
                      */
-<<<<<<< HEAD
-
-=======
                     confirmStoreData();
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
                     break;
                 default:
                     /**
@@ -197,18 +147,6 @@ export default function Login({ mode, accountStatus, accountType, profileData })
         }
     }
 
-<<<<<<< HEAD
-    const incorrectCredentials = () => {
-        // set error message
-        if (email === "") {
-            setSignInError({ title: "Input credentials!", subtitle: "Please input your email." });
-        } else if (password === "") {
-            setSignInError({ title: "Input credentials!", subtitle: "Please input your password." });
-        } else if (!MOCK_ACCOUNTS[email]) {
-            setSignInError({ title: "Incorrect Email!", subtitle: "Email not registered in the system." });
-        } else if (password !== MOCK_ACCOUNTS[email]?.password) {
-            setSignInError({ title: "Incorrect Password!", subtitle: "Please make sure the password is correct." });
-=======
     const confirmStoreData = () => {
         if (shopName === "") {
             setSignInError({ title: "Input information!", subtitle: "Please input shop name." });
@@ -221,7 +159,6 @@ export default function Login({ mode, accountStatus, accountType, profileData })
         } else {
             successfulSignUpPopUp();
             return;
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
         }
 
         // show error
@@ -231,8 +168,6 @@ export default function Login({ mode, accountStatus, accountType, profileData })
         }, 2500);
     }
 
-<<<<<<< HEAD
-=======
     const incorrectCredentials = () => {
         // set error message
         if (email === "") {
@@ -270,16 +205,11 @@ export default function Login({ mode, accountStatus, accountType, profileData })
         }, 2500);
     }
 
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
     const checkSignUpCredentials = () => {
         if (email === "") setSignInError({ title: "Input credentials!", subtitle: "Please input your email." });
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) setSignInError({ title: "Invalid Email!", subtitle: "Please input valid email address." });
         else if (password === "") setSignInError({ title: "Input credentials!", subtitle: "Please input your password." });
         else if (password !== confirmPassword) setSignInError({ title: "Passwords do not match!", subtitle: "Please make sure that confirm password matches the password." });
-<<<<<<< HEAD
-        else return true;
-        return false;
-=======
         else {
             sendOTP();
             setSignUpPage(2);
@@ -306,7 +236,6 @@ export default function Login({ mode, accountStatus, accountType, profileData })
 
     const forgotPassword = () => {
         navigate("/account/forgot-password");
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
     }
 
     return (
@@ -320,17 +249,6 @@ export default function Login({ mode, accountStatus, accountType, profileData })
             </div>
 
             {signUpPage === 3 ?
-<<<<<<< HEAD
-                <div className="absolute top-7/12 left-1/2 -translate-1/2 w-[600px] rounded-2xl flex flex-col gap-4 justify-center bg-white">
-                    <div className="relative bg-unleash-blue h-16 items-center justify-center">
-                        <p className="absolute w-full top-0 text-center font-montserrat font-semibold text-white text-lg">Shop Profile</p>
-                        <IoCloseOutline className="absolute right-0 top-0 text-2xl text-white" />
-                    </div>
-                    <div className="w-full h-[600px]">
-
-                    </div>
-                </div>
-=======
                 <>
                     <div className="absolute top-1/2 left-1/2 -translate-1/2 w-xl shadow-md rounded-2xl flex flex-col justify-center overflow-hidden">
                         <div className="relative bg-unleash-blue-light h-14 flex items-center justify-center">
@@ -391,7 +309,6 @@ export default function Login({ mode, accountStatus, accountType, profileData })
                         <div className="h-screen w-screen bg-black opacity-20" />
                     </div>
                 </>
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
                 :
                 <div className="absolute top-7/12 left-1/2 -translate-1/2 w-md py-9 px-14 rounded-2xl flex flex-col gap-4 justify-center bg-white">
                     <img
@@ -447,10 +364,6 @@ export default function Login({ mode, accountStatus, accountType, profileData })
                         </>
                         :
                         <OTPBar onComplete={(otp) => {
-<<<<<<< HEAD
-                            setConfirmOTP(otp);
-=======
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
                             confirmOTPFunction(otp);
                         }} />
                     }
@@ -461,12 +374,8 @@ export default function Login({ mode, accountStatus, accountType, profileData })
                     </div>
 
                     {/* Secondary Button */}
-<<<<<<< HEAD
-                    {mode === "SIGN_IN" && <div className={`w-full cursor-pointer hover:brightness-90 font-montserrat font-medium text-unleash-blue rounded-sm flex justify-center items-center text-sm`}>
-=======
                     {mode === "SIGN_IN" && <div className={`w-full cursor-pointer hover:brightness-90 font-montserrat font-medium text-unleash-blue rounded-sm flex justify-center items-center text-sm`}
                         onClick={(e) => forgotPassword()}>
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
                         Forgot Password
                     </div>}
                     {mode === "SIGN_UP" && signUpPage === 2 && <div className={`w-full font-montserrat font-medium text-website-gray rounded-sm flex justify-center items-center text-sm`}>

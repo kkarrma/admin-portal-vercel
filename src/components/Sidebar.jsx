@@ -66,11 +66,7 @@ export default function Sidebar({ accountStatus, accountType, profileData, child
             access: "ADMIN"
         },
     ]
-<<<<<<< HEAD
-    const BLACKLIST_LINKS = ["/sign-in", "/sign-up", "/404", "/403"]
-=======
     const BLACKLIST_LINKS = ["/sign-in", "/sign-up", "/account/forgot-password", "/404", "/403"]
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
     const location = useLocation();
     const navigate = useNavigate();
     const [open, setOpen] = useState(true);
@@ -103,11 +99,7 @@ export default function Sidebar({ accountStatus, accountType, profileData, child
                         </div>
                     </div>
 
-<<<<<<< HEAD
-                    <div className="h-0.5 w-full bg-website-gray-200"></div>
-=======
                     <div className="h-0.5 w-full bg-website-gray-300"></div>
->>>>>>> 0a74f80d0425c42e649ffd93755542e9d27c72c0
 
                     {/* Dashboard Items */}
                     <div className={`flex flex-col items-center mt-8 flex-1`}>
