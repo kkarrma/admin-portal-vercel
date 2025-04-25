@@ -13,6 +13,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import Header from "./Header";
 import { ROLES_CONFIGS, USER_ROLES } from "../variables/USER_ROLES";
+import { IoPieChart } from "react-icons/io5";
+
 
 export default function Sidebar({ accountStatus, accountType, profileData, children }) {
 
@@ -64,6 +66,12 @@ export default function Sidebar({ accountStatus, accountType, profileData, child
             icon: <FaPaw />,
             href: "/management/pet-breed",
             roles: [USER_ROLES.SUPER_ADMIN] // Only SUPER_ADMIN
+        },
+        {
+            name: "Reports",
+            icon: <IoPieChart />,
+            href: "/management/reports",
+            roles: [USER_ROLES.SUPER_ADMIN]
         },
     ];
 

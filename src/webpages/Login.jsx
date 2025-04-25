@@ -27,6 +27,33 @@ import { EMAILS } from "../data/email";
 
 export default function Login({ mode, accountStatus, accountType, profileData }) {
 
+    const MOCK_ACCOUNTS = {
+        "super_admin": {
+            password: "password1234",
+            role: USER_ROLES.SUPER_ADMIN,
+            profileData: {
+                pfp: null,
+                username: "Super Admin"
+            }
+        },
+        "marketing1": {
+            password: "password1234",
+            role: USER_ROLES.MARKETING_ADMIN,
+            profileData: {
+                pfp: null,
+                username: "Marketing Admin"
+            }
+        },
+        "merchant_account@gmail.com": {
+            password: "password1234",
+            role: USER_ROLES.MERCHANT,
+            profileData: {
+                pfp: null,
+                username: "Merchant"
+            }
+        }
+    }
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -40,6 +67,7 @@ export default function Login({ mode, accountStatus, accountType, profileData })
     const [signUpPage, setSignUpPage] = useState(1);
     const [OTP, setOTP] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [confirmOTP, setConfirmOTP] = useState("");
     const [shopName, setShopName] = useState("");
     const [shopDescription, setShopDescription] = useState("");
     const [shopPhoneNumber, setShopPhoneNumber] = useState("");

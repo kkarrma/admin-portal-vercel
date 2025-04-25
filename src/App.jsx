@@ -13,6 +13,7 @@ import PetManagement from "./webpages/Pet-Management";
 import ForgotPassword from "./webpages/ForgotPassword";
 import Forbidden from "./webpages/errors/403";
 import NotFound from "./webpages/errors/404";
+import ReportManagement from "./webpages/ReportManagement";
 
 import { USER_ROLES, ALL_AUTHORIZED, ALL_ADMINS } from "./variables/USER_ROLES";
 
@@ -92,6 +93,11 @@ function App() {
     {
       path: "/management/pet-breed",
       element: <PetManagement />,
+      roles: [USER_ROLES.SUPER_ADMIN]
+    },
+    {
+      path: "/management/reports",
+      element: <ReportManagement />,
       roles: [USER_ROLES.SUPER_ADMIN]
     }
   ];
