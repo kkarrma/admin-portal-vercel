@@ -90,7 +90,7 @@ const SearchSortContainer = ({
         <div className="flex items-center justify-between font-montserrat font-medium text-sm">
           <div className="flex items-center space-x-4 flex-grow">
             {/* Search */}
-            <div className="relative w-64">
+            <div className="relative w-4/12">
               <input
                 type="text"
                 placeholder="Search anything"

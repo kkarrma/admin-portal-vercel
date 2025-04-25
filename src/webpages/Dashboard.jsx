@@ -222,7 +222,7 @@ export default function Dashboard() {
     }
 
     return (
-      <div className="bg-white p-4 rounded-lg shadow-sm flex justify-between items-center">
+      <div className="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center">
         <div className="font-montserrat">
           <h3 className="text-xs text-gray-500 font-medium">{metric.title}</h3>
           <p className="text-2xl font-semibold mt-1">{valueDisplay}</p>
@@ -252,7 +252,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="container mx-auto py-6 px-4">
+    <div className="container mx-auto px-4">
       {/* Metrics Grid - First Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
         {metrics.slice(0, 3).map((metric, index) => (
