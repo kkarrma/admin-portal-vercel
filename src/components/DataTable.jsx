@@ -13,6 +13,7 @@ const DataTable = ({
   itemsPerPage,
   setItemsPerPage,
   getStatusClass,
+  isUserManagement,
 }) => {
   const [sortConfig, setSortConfig] = useState({
     key: null,
@@ -146,6 +147,22 @@ const DataTable = ({
             </span>
           </div>
         );
+      case "status-2":
+        return (
+          <div className="flex items-center justify-center">
+            <span
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusClass(
+                item[column.key]
+              )}`}
+            >
+              {item[column.key] === true
+                ? "Yes"
+                : item[column.key] === false
+                ? "No"
+                : "Pending"}
+            </span>
+          </div>
+        );
       case "button":
         return (
           <div className="flex items-center justify-center">
@@ -192,7 +209,7 @@ const DataTable = ({
                     key={index}
                     scope="col"
                     className="px-4 py-6 text-center text-xs font-medium text-[#6D6D71] cursor-pointer whitespace-nowrap"
-                    style={{minWidth: column.minWidth || '100px'}}
+                    style={{ minWidth: column.key === 'Email' ? '200px' : (column.minWidth || '100px') }}
                     onClick={() => column.key && handleSort(column.key)}
                   >
                     <div className="inline-flex items-center">
@@ -221,7 +238,7 @@ const DataTable = ({
                     <td 
                       key={index} 
                       className="px-4 py-3 whitespace-nowrap text-xs font-medium text-gray-900"
-                      style={{minWidth: column.minWidth || '100px'}}
+                      style={{minWidth: isUserManagement ? '150px' : column.minWidth || '100px'}}
                     >
                       {renderCellContent(item, column)}
                     </td>
