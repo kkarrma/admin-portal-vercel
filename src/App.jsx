@@ -98,7 +98,7 @@ function App() {
     {
       path: "/management/reports",
       element: <ReportManagement />,
-      roles: [USER_ROLES.SUPER_ADMIN]
+      roles: [USER_ROLES.MERCHANT]
     }
   ];
 

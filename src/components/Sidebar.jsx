@@ -71,7 +71,7 @@ export default function Sidebar({ accountStatus, accountType, profileData, child
             name: "Reports",
             icon: <IoPieChart />,
             href: "/management/reports",
-            roles: [USER_ROLES.SUPER_ADMIN]
+            roles: [USER_ROLES.MERCHANT]
         },
     ];
 
